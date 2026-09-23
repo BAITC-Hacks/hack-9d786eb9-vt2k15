@@ -5,3 +5,9 @@
 data/
 *.xlsx
 __pycache__/
+
+# Kotlin / Gradle
+.gradle/
+.kotlin/
+build/
+out/
