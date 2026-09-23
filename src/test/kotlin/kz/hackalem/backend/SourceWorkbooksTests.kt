@@ -8,6 +8,8 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.nio.file.Files
 import java.nio.file.Path
@@ -73,5 +75,17 @@ class SourceWorkbooksTests {
         assertTrue(systeme.incomingShipments.rows.first { it.sourceRow == 485 }.reportedAverageMonthlySales.formula.orEmpty().endsWith("/5"))
         assertEquals(15, saved.issues.count { it.rawValue == "#N/A" })
         assertEquals(15, saved.issues.size)
+
+        val orders = mvc.perform(get("/api/orders").param("leadDays", "60").param("reviewDays", "30"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.items").isNotEmpty)
+            .andExpect(jsonPath("$.items[?(@.supplier_id == 'systeme')]").isNotEmpty)
+            .andExpect(jsonPath("$.suppliers.length()").value(2))
+            .andExpect(jsonPath("$.parameters.horizonDays").value(90))
+            .andExpect(jsonPath("$.skipped").isArray)
+            .andExpect(jsonPath("$.review").isArray)
+            .andReturn().response.contentAsString
+        Files.writeString(Path.of("build", "verification", "source-orders.json"), orders)
+        assertSame(saved, store.currentUpload, "Calculating an order must not replace or consume the upload")
     }
 }
