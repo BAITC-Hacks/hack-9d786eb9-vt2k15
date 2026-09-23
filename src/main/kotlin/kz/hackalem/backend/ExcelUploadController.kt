@@ -26,24 +26,42 @@ class ExcelUploadController(
 ) {
     @PostMapping("/api/excel", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun upload(
-        @RequestPart("iekMoq") iekMoq: MultipartFile,
-        @RequestPart("iekSalesDynamics") iekSalesDynamics: MultipartFile,
-        @RequestPart("iekMonthlyStocks") iekMonthlyStocks: MultipartFile,
-        @RequestPart("iekMonthlySales") iekMonthlySales: MultipartFile,
-        @RequestPart("iekIncomingShipments") iekIncomingShipments: MultipartFile,
-        @RequestPart("iekSeasonality") iekSeasonality: MultipartFile,
-        @RequestPart("systemeMoq") systemeMoq: MultipartFile,
-        @RequestPart("systemeSalesDynamics") systemeSalesDynamics: MultipartFile,
-        @RequestPart("systemeMonthlyStocks") systemeMonthlyStocks: MultipartFile,
-        @RequestPart("systemeMonthlySales") systemeMonthlySales: MultipartFile,
-        @RequestPart("systemeIncomingShipments") systemeIncomingShipments: MultipartFile,
-        @RequestPart("systemeSeasonality") systemeSeasonality: MultipartFile,
+        @RequestPart("iekMoq", required = false) iekMoq: MultipartFile?,
+        @RequestPart("iekSalesDynamics", required = false) iekSalesDynamics: MultipartFile?,
+        @RequestPart("iekMonthlyStocks", required = false) iekMonthlyStocks: MultipartFile?,
+        @RequestPart("iekMonthlySales", required = false) iekMonthlySales: MultipartFile?,
+        @RequestPart("iekIncomingShipments", required = false) iekIncomingShipments: MultipartFile?,
+        @RequestPart("iekSeasonality", required = false) iekSeasonality: MultipartFile?,
+        @RequestPart("systemeMoq", required = false) systemeMoq: MultipartFile?,
+        @RequestPart("systemeSalesDynamics", required = false) systemeSalesDynamics: MultipartFile?,
+        @RequestPart("systemeMonthlyStocks", required = false) systemeMonthlyStocks: MultipartFile?,
+        @RequestPart("systemeMonthlySales", required = false) systemeMonthlySales: MultipartFile?,
+        @RequestPart("systemeIncomingShipments", required = false) systemeIncomingShipments: MultipartFile?,
+        @RequestPart("systemeSeasonality", required = false) systemeSeasonality: MultipartFile?,
         request: MultipartHttpServletRequest,
     ): UploadResponse {
         val files = request.multiFileMap
-        if (files.size != 12 || files.values.any { it.size != 1 }) {
-            badRequest("Нужно ровно по одному файлу в каждом из 12 обязательных полей.")
+        if (files.isEmpty()) {
+            badRequest("Загрузите все 6 файлов хотя бы одного поставщика: IEK или Systeme Electric.")
         }
+        val unknownFields = files.keys - (IEK_FIELDS + SYSTEME_FIELDS)
+        if (unknownFields.isNotEmpty()) {
+            badRequest("Неизвестные файловые поля: ${unknownFields.joinToString()}.")
+        }
+        if (files.values.any { it.size != 1 }) {
+            badRequest("Каждое файловое поле должно содержать ровно один файл.")
+        }
+
+        fun supplierIncluded(supplier: String, fields: Set<String>): Boolean {
+            if (fields.none { it in files }) return false
+            val missing = fields - files.keys
+            if (missing.isNotEmpty()) {
+                badRequest("Для $supplier нужны все 6 файлов. Отсутствуют поля: ${missing.joinToString()}.")
+            }
+            return true
+        }
+        val hasIek = supplierIncluded("IEK", IEK_FIELDS)
+        val hasSysteme = supplierIncluded("Systeme Electric", SYSTEME_FIELDS)
 
         files.values.flatten().forEach { file ->
             if (file.isEmpty) {
@@ -55,60 +73,76 @@ class ExcelUploadController(
         }
 
         val issues = mutableListOf<ExcelIssue>()
-        fun <T> parse(file: MultipartFile, parser: (ExcelWorkbook) -> T): T {
+        fun <T> parse(file: MultipartFile?, parser: (ExcelWorkbook) -> T): T {
+            val sourceFile = file ?: badRequest("Отсутствует обязательный файл выбранного поставщика.")
             try {
-                val book = reader.read(file)
+                val book = reader.read(sourceFile)
                 val data = parser(book)
                 issues.addAll(book.issues)
                 return data
             } catch (error: ExcelFormatException) {
                 badRequest(error.message ?: "Некорректный формат Excel.")
             } catch (error: IllegalArgumentException) {
-                badRequest("${file.originalFilename}: ${error.message}")
+                badRequest("${sourceFile.originalFilename}: ${error.message}")
             }
         }
 
-        // Publish only when all twelve reports have been parsed successfully.
+        // Publish only when all reports of every included supplier have been parsed successfully.
         val upload = ExcelUpload(
-            iek = IekData(
+            iek = if (hasIek) IekData(
                 moq = parse(iekMoq, iekParser::parseMoq),
                 salesDynamics = parse(iekSalesDynamics, iekParser::parseSalesDynamics),
                 monthlyStocks = parse(iekMonthlyStocks, iekParser::parseMonthlyStocks),
                 monthlySales = parse(iekMonthlySales, iekParser::parseMonthlySales),
                 incomingShipments = parse(iekIncomingShipments, iekParser::parseIncomingShipments),
                 seasonality = parse(iekSeasonality, iekParser::parseSeasonality),
-            ),
-            systeme = SystemeData(
+            ) else null,
+            systeme = if (hasSysteme) SystemeData(
                 moq = parse(systemeMoq, systemeParser::parseMoq),
                 salesDynamics = parse(systemeSalesDynamics, systemeParser::parseSalesDynamics),
                 monthlyStocks = parse(systemeMonthlyStocks, systemeParser::parseMonthlyStocks),
                 monthlySales = parse(systemeMonthlySales, systemeParser::parseMonthlySales),
                 incomingShipments = parse(systemeIncomingShipments, systemeParser::parseIncomingShipments),
                 seasonality = parse(systemeSeasonality, systemeParser::parseSeasonality),
-            ),
+            ) else null,
             issues = issues.toList(),
         )
         store.replace(upload)
         return UploadResponse(
-            iekFiles = 6, systemeFiles = 6, totalFiles = 12,
-            recordCounts = linkedMapOf(
-                "iekMoq" to upload.iek.moq.rows.size,
-                "iekSalesDynamics" to upload.iek.salesDynamics.rows.size,
-                "iekMonthlyStocks" to upload.iek.monthlyStocks.rows.size,
-                "iekMonthlySales" to upload.iek.monthlySales.rows.size,
-                "iekIncomingShipments" to upload.iek.incomingShipments.rows.size,
-                "iekSeasonality" to upload.iek.seasonality.yearlySeasonality.size,
-                "systemeMoq" to upload.systeme.moq.rows.size,
-                "systemeSalesDynamics" to upload.systeme.salesDynamics.rows.size,
-                "systemeMonthlyStocks" to upload.systeme.monthlyStocks.rows.size,
-                "systemeMonthlySales" to upload.systeme.monthlySales.rows.size,
-                "systemeIncomingShipments" to upload.systeme.incomingShipments.rows.size,
-                "systemeSeasonality" to upload.systeme.seasonality.rows.size,
-            ),
+            iekFiles = if (hasIek) 6 else 0,
+            systemeFiles = if (hasSysteme) 6 else 0,
+            totalFiles = files.size,
+            recordCounts = buildMap {
+                upload.iek?.let { iek ->
+                    put("iekMoq", iek.moq.rows.size)
+                    put("iekSalesDynamics", iek.salesDynamics.rows.size)
+                    put("iekMonthlyStocks", iek.monthlyStocks.rows.size)
+                    put("iekMonthlySales", iek.monthlySales.rows.size)
+                    put("iekIncomingShipments", iek.incomingShipments.rows.size)
+                    put("iekSeasonality", iek.seasonality.yearlySeasonality.size)
+                }
+                upload.systeme?.let { systeme ->
+                    put("systemeMoq", systeme.moq.rows.size)
+                    put("systemeSalesDynamics", systeme.salesDynamics.rows.size)
+                    put("systemeMonthlyStocks", systeme.monthlyStocks.rows.size)
+                    put("systemeMonthlySales", systeme.monthlySales.rows.size)
+                    put("systemeIncomingShipments", systeme.incomingShipments.rows.size)
+                    put("systemeSeasonality", systeme.seasonality.rows.size)
+                }
+            },
             issues = upload.issues,
         )
     }
 
     private fun badRequest(message: String): Nothing =
         throw ResponseStatusException(HttpStatus.BAD_REQUEST, message)
+
+    private companion object {
+        val IEK_FIELDS = setOf(
+            "iekMoq", "iekSalesDynamics", "iekMonthlyStocks", "iekMonthlySales", "iekIncomingShipments", "iekSeasonality",
+        )
+        val SYSTEME_FIELDS = setOf(
+            "systemeMoq", "systemeSalesDynamics", "systemeMonthlyStocks", "systemeMonthlySales", "systemeIncomingShipments", "systemeSeasonality",
+        )
+    }
 }
