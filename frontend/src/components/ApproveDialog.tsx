@@ -1,9 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import { api } from "../api/client";
 import type { OrderItem } from "../api/types";
 import type { Override } from "./OrderTable";
 import { fmtInt } from "../format";
-import { downloadCsv } from "../exportCsv";
+import { downloadXlsx } from "../exportCsv";
 
 interface Props {
   items: OrderItem[];
@@ -22,25 +20,19 @@ export function ApproveDialog({ items, overrides, supplierName, onClose, onDone 
   }
   const edited = items.filter((i) => overrides[i.erp_code]).length;
 
-  const approve = useMutation({
-    mutationFn: async () => {
-      const ids: string[] = [];
-      for (const [supplier_id, g] of bySupplier) {
-        const res = await api.approve({
-          supplier_id,
-          lines: g.items.map((i) => ({
-            erp_code: i.erp_code,
-            order_qty: overrides[i.erp_code]?.qty ?? i.order_qty,
-            reason: overrides[i.erp_code]?.reason,
-          })),
-        });
-        ids.push(res.order_id);
-        downloadCsv(g.name, g.items, overrides);
-      }
-      return ids;
-    },
-    onSuccess: (ids) => onDone(`Заказ утверждён: ${ids.join(", ")}. CSV для 1С скачан.`),
-  });
+  // Утверждение формирует Excel-файл заказа локально (по одному на поставщика) — без обращения к backend.
+  async function approve() {
+    const names: string[] = [];
+    for (const [, g] of bySupplier) {
+      await downloadXlsx(g.name, g.items, overrides);
+      names.push(g.name);
+    }
+    onDone(
+      names.length > 1
+        ? `Excel-файлы заказа сформированы: ${names.join(", ")}.`
+        : `Excel-файл заказа сформирован: ${names[0]}.`,
+    );
+  }
 
   return (
     <div className="overlay center" onClick={onClose}>
@@ -52,7 +44,7 @@ export function ApproveDialog({ items, overrides, supplierName, onClose, onDone 
         onClick={(e) => e.stopPropagation()}
       >
         <h2 id="approve-title">Утвердить заказ{supplierName ? ` · ${supplierName}` : ""}</h2>
-        <p className="muted">Заказ не уходит поставщику автоматически: после утверждения скачается CSV для загрузки в 1С.</p>
+        <p className="muted">Заказ не уходит поставщику автоматически: после утверждения сформируется Excel-файл для загрузки в 1С.</p>
         <ul className="supplier-list">
           {[...bySupplier.values()].map((g) => (
             <li key={g.name}>
@@ -62,12 +54,9 @@ export function ApproveDialog({ items, overrides, supplierName, onClose, onDone 
           ))}
         </ul>
         {edited > 0 && <div className="banner warn">Правок закупщика: {edited}. Они попадут в заказ вместо расчёта.</div>}
-        {approve.isError && <div className="banner bad" role="alert">Не удалось утвердить: {approve.error.message}</div>}
         <div className="row gap end">
-          <button className="btn" onClick={onClose} disabled={approve.isPending}>Отмена</button>
-          <button className="btn primary" onClick={() => approve.mutate()} disabled={approve.isPending}>
-            {approve.isPending ? "Утверждаю…" : "Утвердить и скачать"}
-          </button>
+          <button className="btn" onClick={onClose}>Отмена</button>
+          <button className="btn primary" onClick={approve}>Сформировать Excel</button>
         </div>
       </section>
     </div>
