@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fixture>
+  <sheet name="Лист_1" state="visible">
+    <row r="1">
+      <c r="A1" t="inlineStr">
+        <is>
+          <t>№</t>
+        </is>
+      </c>
+      <c r="B1" t="inlineStr">
+        <is>
+          <t>Номенклатура</t>
+        </is>
+      </c>
+      <c r="C1" t="inlineStr">
+        <is>
+          <t>Номенклатура.Код</t>
+        </is>
+      </c>
+      <c r="D1" t="inlineStr">
+        <is>
+          <t>Артикул</t>
+        </is>
+      </c>
+      <c r="E1" t="inlineStr">
+        <is>
+          <t>Кратность</t>
+        </is>
+      </c>
+    </row>
+    <row r="2" />
+    <row r="3">
+      <c r="A3">
+        <v>1</v>
+      </c>
+      <c r="B3" t="inlineStr">
+        <is>
+          <t> S174  (1кл, инд с/у 16А, IP44) Переключатель "Wessen 59" ВС 616-157Б-18 (60) !!!</t>
+        </is>
+      </c>
+      <c r="C3" t="inlineStr">
+        <is>
+          <t>030200128_</t>
+        </is>
+      </c>
+      <c r="D3" t="inlineStr">
+        <is>
+          <t>VS616-157B-18</t>
+        </is>
+      </c>
+      <c r="E3">
+        <v>1</v>
+      </c>
+    </row>
+  </sheet>
+</fixture>

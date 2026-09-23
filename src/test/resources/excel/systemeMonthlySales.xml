@@ -1,0 +1,1271 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fixture>
+  <sheet name="Лист_1" state="visible">
+    <row r="1">
+      <c r="A1" t="inlineStr">
+        <is>
+          <t>Номенклатура</t>
+        </is>
+      </c>
+      <c r="B1" t="inlineStr">
+        <is>
+          <t>Номенклатура.Код</t>
+        </is>
+      </c>
+      <c r="C1" t="inlineStr">
+        <is>
+          <t>Артикул</t>
+        </is>
+      </c>
+      <c r="D1" t="inlineStr">
+        <is>
+          <t>Кратность</t>
+        </is>
+      </c>
+      <c r="E1" t="inlineStr">
+        <is>
+          <t>янв. 2024</t>
+        </is>
+      </c>
+      <c r="F1" t="inlineStr">
+        <is>
+          <t>февр. 2024</t>
+        </is>
+      </c>
+      <c r="G1" t="inlineStr">
+        <is>
+          <t>март 2024</t>
+        </is>
+      </c>
+      <c r="H1" t="inlineStr">
+        <is>
+          <t>апр. 2024</t>
+        </is>
+      </c>
+      <c r="I1" t="inlineStr">
+        <is>
+          <t>май 2024</t>
+        </is>
+      </c>
+      <c r="J1" t="inlineStr">
+        <is>
+          <t>июнь 2024</t>
+        </is>
+      </c>
+      <c r="K1" t="inlineStr">
+        <is>
+          <t>июль 2024</t>
+        </is>
+      </c>
+      <c r="L1" t="inlineStr">
+        <is>
+          <t>авг. 2024</t>
+        </is>
+      </c>
+      <c r="M1" t="inlineStr">
+        <is>
+          <t>сент. 2024</t>
+        </is>
+      </c>
+      <c r="N1" t="inlineStr">
+        <is>
+          <t>окт. 2024</t>
+        </is>
+      </c>
+      <c r="O1" t="inlineStr">
+        <is>
+          <t>нояб. 2024</t>
+        </is>
+      </c>
+      <c r="P1" t="inlineStr">
+        <is>
+          <t>дек. 2024</t>
+        </is>
+      </c>
+      <c r="Q1" t="inlineStr">
+        <is>
+          <t>янв. 2025</t>
+        </is>
+      </c>
+      <c r="R1" t="inlineStr">
+        <is>
+          <t>февр. 2025</t>
+        </is>
+      </c>
+      <c r="S1" t="inlineStr">
+        <is>
+          <t>март 2025</t>
+        </is>
+      </c>
+      <c r="T1" t="inlineStr">
+        <is>
+          <t>апр. 2025</t>
+        </is>
+      </c>
+      <c r="U1" t="inlineStr">
+        <is>
+          <t>май 2025</t>
+        </is>
+      </c>
+      <c r="V1" t="inlineStr">
+        <is>
+          <t>июнь 2025</t>
+        </is>
+      </c>
+      <c r="W1" t="inlineStr">
+        <is>
+          <t>июль 2025</t>
+        </is>
+      </c>
+      <c r="X1" t="inlineStr">
+        <is>
+          <t>авг. 2025</t>
+        </is>
+      </c>
+      <c r="Y1" t="inlineStr">
+        <is>
+          <t>сент. 2025</t>
+        </is>
+      </c>
+      <c r="Z1" t="inlineStr">
+        <is>
+          <t>окт. 2025</t>
+        </is>
+      </c>
+      <c r="AA1" t="inlineStr">
+        <is>
+          <t>нояб. 2025</t>
+        </is>
+      </c>
+      <c r="AB1" t="inlineStr">
+        <is>
+          <t>дек. 2025</t>
+        </is>
+      </c>
+      <c r="AC1" t="inlineStr">
+        <is>
+          <t>янв. 2026</t>
+        </is>
+      </c>
+      <c r="AD1" t="inlineStr">
+        <is>
+          <t>февр. 2026</t>
+        </is>
+      </c>
+      <c r="AE1" t="inlineStr">
+        <is>
+          <t>март 2026</t>
+        </is>
+      </c>
+      <c r="AF1" t="inlineStr">
+        <is>
+          <t>апр. 2026</t>
+        </is>
+      </c>
+      <c r="AG1" t="inlineStr">
+        <is>
+          <t>май 2026</t>
+        </is>
+      </c>
+      <c r="AH1" t="inlineStr">
+        <is>
+          <t>июнь 2026</t>
+        </is>
+      </c>
+      <c r="AI1" t="inlineStr">
+        <is>
+          <t>июль 2026</t>
+        </is>
+      </c>
+      <c r="AJ1" t="inlineStr">
+        <is>
+          <t>авг. 2026</t>
+        </is>
+      </c>
+      <c r="AK1" t="inlineStr">
+        <is>
+          <t>сент. 2026</t>
+        </is>
+      </c>
+      <c r="AL1" t="inlineStr">
+        <is>
+          <t>Итого</t>
+        </is>
+      </c>
+    </row>
+    <row r="2">
+      <c r="E2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="F2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="G2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="H2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="I2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="J2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="K2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="L2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="M2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="N2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="O2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="P2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="Q2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="R2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="S2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="T2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="U2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="V2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="W2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="X2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="Y2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="Z2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AA2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AB2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AC2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AD2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AE2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AF2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AG2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AH2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AI2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AJ2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AK2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+      <c r="AL2" t="inlineStr">
+        <is>
+          <t>Количество</t>
+        </is>
+      </c>
+    </row>
+    <row r="3">
+      <c r="A3" t="inlineStr">
+        <is>
+          <t> S174  (1кл, инд с/у 16А, IP44) Переключатель "Wessen 59" ВС 616-157Б-18 (60) !!!</t>
+        </is>
+      </c>
+      <c r="B3" t="inlineStr">
+        <is>
+          <t>030200128_</t>
+        </is>
+      </c>
+      <c r="C3" t="inlineStr">
+        <is>
+          <t>VS616-157B-18</t>
+        </is>
+      </c>
+      <c r="D3">
+        <v>0</v>
+      </c>
+      <c r="W3">
+        <v>2</v>
+      </c>
+      <c r="Z3">
+        <v>2</v>
+      </c>
+      <c r="AL3">
+        <v>4</v>
+      </c>
+    </row>
+  </sheet>
+  <sheet name="Лист1" state="hidden">
+    <row r="1" />
+    <row r="2" />
+    <row r="3">
+      <c r="A3" t="inlineStr">
+        <is>
+          <t>год</t>
+        </is>
+      </c>
+      <c r="B3" t="inlineStr">
+        <is>
+          <t>янв</t>
+        </is>
+      </c>
+      <c r="C3" t="inlineStr">
+        <is>
+          <t>фев</t>
+        </is>
+      </c>
+      <c r="D3" t="inlineStr">
+        <is>
+          <t>мар</t>
+        </is>
+      </c>
+      <c r="E3" t="inlineStr">
+        <is>
+          <t>апр</t>
+        </is>
+      </c>
+      <c r="F3" t="inlineStr">
+        <is>
+          <t>май</t>
+        </is>
+      </c>
+      <c r="G3" t="inlineStr">
+        <is>
+          <t>июн</t>
+        </is>
+      </c>
+      <c r="H3" t="inlineStr">
+        <is>
+          <t>июл</t>
+        </is>
+      </c>
+      <c r="I3" t="inlineStr">
+        <is>
+          <t>авг</t>
+        </is>
+      </c>
+      <c r="J3" t="inlineStr">
+        <is>
+          <t>сен</t>
+        </is>
+      </c>
+      <c r="K3" t="inlineStr">
+        <is>
+          <t>окт</t>
+        </is>
+      </c>
+      <c r="L3" t="inlineStr">
+        <is>
+          <t>ноя</t>
+        </is>
+      </c>
+      <c r="M3" t="inlineStr">
+        <is>
+          <t>дек</t>
+        </is>
+      </c>
+      <c r="N3" t="inlineStr">
+        <is>
+          <t>ИТОГО</t>
+        </is>
+      </c>
+    </row>
+    <row r="4">
+      <c r="A4">
+        <v>2024</v>
+      </c>
+      <c r="B4">
+        <v>24596427</v>
+      </c>
+      <c r="C4">
+        <v>22395512</v>
+      </c>
+      <c r="D4">
+        <v>44147660</v>
+      </c>
+      <c r="E4">
+        <v>62276496.32</v>
+      </c>
+      <c r="F4">
+        <v>73462110</v>
+      </c>
+      <c r="G4">
+        <v>68345412</v>
+      </c>
+      <c r="H4">
+        <v>71289315.980000004</v>
+      </c>
+      <c r="I4">
+        <v>91399515.640000001</v>
+      </c>
+      <c r="J4">
+        <v>99082123</v>
+      </c>
+      <c r="K4">
+        <v>88432469</v>
+      </c>
+      <c r="L4">
+        <v>82883679</v>
+      </c>
+      <c r="M4">
+        <v>65881945</v>
+      </c>
+      <c r="N4">
+        <f>SUM(B4:M4)</f>
+        <v>794192664.94000006</v>
+      </c>
+    </row>
+    <row r="5">
+      <c r="A5">
+        <v>2025</v>
+      </c>
+      <c r="B5">
+        <v>60612221</v>
+      </c>
+      <c r="C5">
+        <v>70526214</v>
+      </c>
+      <c r="D5">
+        <v>62394638.899999999</v>
+      </c>
+      <c r="E5">
+        <v>80289436.030000001</v>
+      </c>
+      <c r="F5">
+        <v>77227054</v>
+      </c>
+      <c r="G5">
+        <v>80386586</v>
+      </c>
+      <c r="H5">
+        <v>79580845.349999994</v>
+      </c>
+      <c r="I5">
+        <v>85147826.950000003</v>
+      </c>
+      <c r="J5">
+        <v>75393744</v>
+      </c>
+      <c r="K5">
+        <v>70827551</v>
+      </c>
+      <c r="L5">
+        <v>72949510</v>
+      </c>
+      <c r="M5">
+        <v>71608529.439999998</v>
+      </c>
+      <c r="N5">
+        <f>SUM(B5:M5)</f>
+        <v>886944156.67000008</v>
+      </c>
+    </row>
+    <row r="6">
+      <c r="A6">
+        <v>2026</v>
+      </c>
+      <c r="B6">
+        <v>51463402</v>
+      </c>
+      <c r="C6">
+        <v>57127585</v>
+      </c>
+      <c r="D6">
+        <v>49906664.43</v>
+      </c>
+      <c r="E6">
+        <v>61255146</v>
+      </c>
+      <c r="F6">
+        <v>59215517</v>
+      </c>
+      <c r="G6">
+        <v>68110627</v>
+      </c>
+      <c r="H6">
+        <v>72110849.170000002</v>
+      </c>
+      <c r="I6">
+        <v>70105174.180000007</v>
+      </c>
+      <c r="J6">
+        <v>45371784.460000001</v>
+      </c>
+      <c r="N6">
+        <f>SUM(B6:M6)</f>
+        <v>534666749.24000001</v>
+      </c>
+    </row>
+    <row r="7" />
+    <row r="8">
+      <c r="B8" t="inlineStr">
+        <is>
+          <t>Сезонность по годам</t>
+        </is>
+      </c>
+    </row>
+    <row r="9" />
+    <row r="10">
+      <c r="B10" t="inlineStr">
+        <is>
+          <t>Месяц</t>
+        </is>
+      </c>
+      <c r="C10" t="inlineStr">
+        <is>
+          <t>Продажи 2024</t>
+        </is>
+      </c>
+      <c r="D10" t="inlineStr">
+        <is>
+          <t>Коэф. сезонности</t>
+        </is>
+      </c>
+      <c r="E10" t="inlineStr">
+        <is>
+          <t>Доля в году</t>
+        </is>
+      </c>
+      <c r="F10" t="inlineStr">
+        <is>
+          <t>Продажи 2025</t>
+        </is>
+      </c>
+      <c r="G10" t="inlineStr">
+        <is>
+          <t>Коэф. сезонности 2025</t>
+        </is>
+      </c>
+      <c r="H10" t="inlineStr">
+        <is>
+          <t>Доля в году 2025</t>
+        </is>
+      </c>
+      <c r="I10" t="inlineStr">
+        <is>
+          <t>Продажи 2026</t>
+        </is>
+      </c>
+      <c r="J10" t="inlineStr">
+        <is>
+          <t>Коэф. сезонности 2026</t>
+        </is>
+      </c>
+      <c r="K10" t="inlineStr">
+        <is>
+          <t>Доля в году 2026</t>
+        </is>
+      </c>
+      <c r="M10" t="inlineStr">
+        <is>
+          <t>Год</t>
+        </is>
+      </c>
+      <c r="N10" t="inlineStr">
+        <is>
+          <t>Среднемес.</t>
+        </is>
+      </c>
+      <c r="O10" t="inlineStr">
+        <is>
+          <t>Итого за год</t>
+        </is>
+      </c>
+    </row>
+    <row r="11">
+      <c r="B11" t="str">
+        <f t="array" ref="B11">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>янв</v>
+      </c>
+      <c r="C11">
+        <f t="array" ref="C11">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>24596427</v>
+      </c>
+      <c r="D11">
+        <f>IFERROR(C11/$N$11,"")</f>
+        <v>0.37164423323186774</v>
+      </c>
+      <c r="E11">
+        <f>IFERROR(C11/$O$11,"")</f>
+        <v>3.0970352769322314E-2</v>
+      </c>
+      <c r="F11">
+        <f t="array" ref="F11">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>60612221</v>
+      </c>
+      <c r="G11">
+        <f>IFERROR(F11/$N$12,"")</f>
+        <v>0.82005912833429884</v>
+      </c>
+      <c r="H11">
+        <f>IFERROR(F11/$O$12,"")</f>
+        <v>6.8338260694524894E-2</v>
+      </c>
+      <c r="I11">
+        <f t="array" ref="I11">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>51463402</v>
+      </c>
+      <c r="J11">
+        <f>IFERROR(I11/$N$13,"")</f>
+        <v>0.86627907693600192</v>
+      </c>
+      <c r="K11">
+        <f>IFERROR(I11/$O$13,"")</f>
+        <v>9.6253230770666873E-2</v>
+      </c>
+      <c r="M11">
+        <f>$A$4</f>
+        <v>2024</v>
+      </c>
+      <c r="N11">
+        <f>IFERROR(AVERAGE($B$4:$M$4),"")</f>
+        <v>66182722.078333341</v>
+      </c>
+      <c r="O11">
+        <f>$N$4</f>
+        <v>794192664.94000006</v>
+      </c>
+    </row>
+    <row r="12">
+      <c r="B12" t="str">
+        <f t="array" ref="B12">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>фев</v>
+      </c>
+      <c r="C12">
+        <f t="array" ref="C12">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>22395512</v>
+      </c>
+      <c r="D12">
+        <f t="shared" ref="D12:D22" si="0">IFERROR(C12/$N$11,"")</f>
+        <v>0.33838910363180363</v>
+      </c>
+      <c r="E12">
+        <f t="shared" ref="E12:E22" si="1">IFERROR(C12/$O$11,"")</f>
+        <v>2.8199091969316973E-2</v>
+      </c>
+      <c r="F12">
+        <f t="array" ref="F12">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>70526214</v>
+      </c>
+      <c r="G12">
+        <f t="shared" ref="G12:G22" si="2">IFERROR(F12/$N$12,"")</f>
+        <v>0.9541914918042389</v>
+      </c>
+      <c r="H12">
+        <f t="shared" ref="H12:H22" si="3">IFERROR(F12/$O$12,"")</f>
+        <v>7.9515957650353242E-2</v>
+      </c>
+      <c r="I12">
+        <f t="array" ref="I12">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>57127585</v>
+      </c>
+      <c r="J12">
+        <f t="shared" ref="J12:J22" si="4">IFERROR(I12/$N$13,"")</f>
+        <v>0.96162378852029617</v>
+      </c>
+      <c r="K12">
+        <f t="shared" ref="K12:K22" si="5">IFERROR(I12/$O$13,"")</f>
+        <v>0.10684708761336624</v>
+      </c>
+      <c r="M12">
+        <f>$A$5</f>
+        <v>2025</v>
+      </c>
+      <c r="N12">
+        <f>IFERROR(AVERAGE($B$5:$M$5),"")</f>
+        <v>73912013.05583334</v>
+      </c>
+      <c r="O12">
+        <f>$N$5</f>
+        <v>886944156.67000008</v>
+      </c>
+    </row>
+    <row r="13">
+      <c r="B13" t="str">
+        <f t="array" ref="B13">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>мар</v>
+      </c>
+      <c r="C13">
+        <f t="array" ref="C13">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>44147660</v>
+      </c>
+      <c r="D13">
+        <f t="shared" si="0" />
+        <v>0.66705718069056119</v>
+      </c>
+      <c r="E13">
+        <f t="shared" si="1" />
+        <v>5.5588098390880109E-2</v>
+      </c>
+      <c r="F13">
+        <f t="array" ref="F13">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>62394638.899999999</v>
+      </c>
+      <c r="G13">
+        <f t="shared" si="2" />
+        <v>0.84417453023322364</v>
+      </c>
+      <c r="H13">
+        <f t="shared" si="3" />
+        <v>7.0347877519435303E-2</v>
+      </c>
+      <c r="I13">
+        <f t="array" ref="I13">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>49906664.43</v>
+      </c>
+      <c r="J13">
+        <f t="shared" si="4" />
+        <v>0.84007464557774858</v>
+      </c>
+      <c r="K13">
+        <f t="shared" si="5" />
+        <v>9.3341627286416512E-2</v>
+      </c>
+      <c r="M13">
+        <f>$A$6</f>
+        <v>2026</v>
+      </c>
+      <c r="N13">
+        <f>IFERROR(AVERAGE($B$6:$M$6),"")</f>
+        <v>59407416.582222223</v>
+      </c>
+      <c r="O13">
+        <f>$N$6</f>
+        <v>534666749.24000001</v>
+      </c>
+    </row>
+    <row r="14">
+      <c r="B14" t="str">
+        <f t="array" ref="B14">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>апр</v>
+      </c>
+      <c r="C14">
+        <f t="array" ref="C14">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>62276496.32</v>
+      </c>
+      <c r="D14">
+        <f t="shared" si="0" />
+        <v>0.94097816415423408</v>
+      </c>
+      <c r="E14">
+        <f t="shared" si="1" />
+        <v>7.841484701285284E-2</v>
+      </c>
+      <c r="F14">
+        <f t="array" ref="F14">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>80289436.030000001</v>
+      </c>
+      <c r="G14">
+        <f t="shared" si="2" />
+        <v>1.0862839843010248</v>
+      </c>
+      <c r="H14">
+        <f t="shared" si="3" />
+        <v>9.0523665358418728E-2</v>
+      </c>
+      <c r="I14">
+        <f t="array" ref="I14">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>61255146</v>
+      </c>
+      <c r="J14">
+        <f t="shared" si="4" />
+        <v>1.0311026724284575</v>
+      </c>
+      <c r="K14">
+        <f t="shared" si="5" />
+        <v>0.11456696360316196</v>
+      </c>
+    </row>
+    <row r="15">
+      <c r="B15" t="str">
+        <f t="array" ref="B15">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>май</v>
+      </c>
+      <c r="C15">
+        <f t="array" ref="C15">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>73462110</v>
+      </c>
+      <c r="D15">
+        <f t="shared" si="0" />
+        <v>1.1099892493550028</v>
+      </c>
+      <c r="E15">
+        <f t="shared" si="1" />
+        <v>9.2499104112916911E-2</v>
+      </c>
+      <c r="F15">
+        <f t="array" ref="F15">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>77227054</v>
+      </c>
+      <c r="G15">
+        <f t="shared" si="2" />
+        <v>1.0448511792211974</v>
+      </c>
+      <c r="H15">
+        <f t="shared" si="3" />
+        <v>8.7070931601766446E-2</v>
+      </c>
+      <c r="I15">
+        <f t="array" ref="I15">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>59215517</v>
+      </c>
+      <c r="J15">
+        <f t="shared" si="4" />
+        <v>0.99676977062356131</v>
+      </c>
+      <c r="K15">
+        <f t="shared" si="5" />
+        <v>0.11075219673595126</v>
+      </c>
+    </row>
+    <row r="16">
+      <c r="B16" t="str">
+        <f t="array" ref="B16">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>июн</v>
+      </c>
+      <c r="C16">
+        <f t="array" ref="C16">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>68345412</v>
+      </c>
+      <c r="D16">
+        <f t="shared" si="0" />
+        <v>1.0326775607553118</v>
+      </c>
+      <c r="E16">
+        <f t="shared" si="1" />
+        <v>8.6056463396275998E-2</v>
+      </c>
+      <c r="F16">
+        <f t="array" ref="F16">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>80386586</v>
+      </c>
+      <c r="G16">
+        <f t="shared" si="2" />
+        <v>1.08759838457215</v>
+      </c>
+      <c r="H16">
+        <f t="shared" si="3" />
+        <v>9.0633198714345831E-2</v>
+      </c>
+      <c r="I16">
+        <f t="array" ref="I16">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>68110627</v>
+      </c>
+      <c r="J16">
+        <f t="shared" si="4" />
+        <v>1.1465004021127931</v>
+      </c>
+      <c r="K16">
+        <f t="shared" si="5" />
+        <v>0.12738893356808814</v>
+      </c>
+    </row>
+    <row r="17">
+      <c r="B17" t="str">
+        <f t="array" ref="B17">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>июл</v>
+      </c>
+      <c r="C17">
+        <f t="array" ref="C17">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>71289315.980000004</v>
+      </c>
+      <c r="D17">
+        <f t="shared" si="0" />
+        <v>1.0771590188693438</v>
+      </c>
+      <c r="E17">
+        <f t="shared" si="1" />
+        <v>8.9763251572445329E-2</v>
+      </c>
+      <c r="F17">
+        <f t="array" ref="F17">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>79580845.349999994</v>
+      </c>
+      <c r="G17">
+        <f t="shared" si="2" />
+        <v>1.0766970355669301</v>
+      </c>
+      <c r="H17">
+        <f t="shared" si="3" />
+        <v>8.9724752963910845E-2</v>
+      </c>
+      <c r="I17">
+        <f t="array" ref="I17">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>72110849.170000002</v>
+      </c>
+      <c r="J17">
+        <f t="shared" si="4" />
+        <v>1.2138358023058573</v>
+      </c>
+      <c r="K17">
+        <f t="shared" si="5" />
+        <v>0.1348706447006508</v>
+      </c>
+    </row>
+    <row r="18">
+      <c r="B18" t="str">
+        <f t="array" ref="B18">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>авг</v>
+      </c>
+      <c r="C18">
+        <f t="array" ref="C18">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>91399515.640000001</v>
+      </c>
+      <c r="D18">
+        <f t="shared" si="0" />
+        <v>1.3810177757847473</v>
+      </c>
+      <c r="E18">
+        <f t="shared" si="1" />
+        <v>0.11508481464872895</v>
+      </c>
+      <c r="F18">
+        <f t="array" ref="F18">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>85147826.950000003</v>
+      </c>
+      <c r="G18">
+        <f t="shared" si="2" />
+        <v>1.1520160719432591</v>
+      </c>
+      <c r="H18">
+        <f t="shared" si="3" />
+        <v>9.6001339328604926E-2</v>
+      </c>
+      <c r="I18">
+        <f t="array" ref="I18">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>70105174.180000007</v>
+      </c>
+      <c r="J18">
+        <f t="shared" si="4" />
+        <v>1.1800744454688021</v>
+      </c>
+      <c r="K18">
+        <f t="shared" si="5" />
+        <v>0.1311193828298669</v>
+      </c>
+    </row>
+    <row r="19">
+      <c r="B19" t="str">
+        <f t="array" ref="B19">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>сен</v>
+      </c>
+      <c r="C19">
+        <f t="array" ref="C19">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>99082123</v>
+      </c>
+      <c r="D19">
+        <f t="shared" si="0" />
+        <v>1.4970995433328838</v>
+      </c>
+      <c r="E19">
+        <f t="shared" si="1" />
+        <v>0.12475829527774031</v>
+      </c>
+      <c r="F19">
+        <f t="array" ref="F19">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>75393744</v>
+      </c>
+      <c r="G19">
+        <f t="shared" si="2" />
+        <v>1.0200472275467232</v>
+      </c>
+      <c r="H19">
+        <f t="shared" si="3" />
+        <v>8.5003935628893593E-2</v>
+      </c>
+      <c r="I19">
+        <f t="array" ref="I19">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>45371784.460000001</v>
+      </c>
+      <c r="J19">
+        <f t="shared" si="4" />
+        <v>0.76373939602648178</v>
+      </c>
+      <c r="K19">
+        <f t="shared" si="5" />
+        <v>8.4859932891831316E-2</v>
+      </c>
+    </row>
+    <row r="20">
+      <c r="B20" t="str">
+        <f t="array" ref="B20">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>окт</v>
+      </c>
+      <c r="C20">
+        <f t="array" ref="C20">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>88432469</v>
+      </c>
+      <c r="D20">
+        <f t="shared" si="0" />
+        <v>1.3361866393970927</v>
+      </c>
+      <c r="E20">
+        <f t="shared" si="1" />
+        <v>0.11134888661642441</v>
+      </c>
+      <c r="F20">
+        <f t="array" ref="F20">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>70827551</v>
+      </c>
+      <c r="G20">
+        <f t="shared" si="2" />
+        <v>0.95826846099424556</v>
+      </c>
+      <c r="H20">
+        <f t="shared" si="3" />
+        <v>7.9855705082853792E-2</v>
+      </c>
+      <c r="I20">
+        <f t="array" ref="I20">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>0</v>
+      </c>
+      <c r="J20">
+        <f t="shared" si="4" />
+        <v>0</v>
+      </c>
+      <c r="K20">
+        <f t="shared" si="5" />
+        <v>0</v>
+      </c>
+    </row>
+    <row r="21">
+      <c r="B21" t="str">
+        <f t="array" ref="B21">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>ноя</v>
+      </c>
+      <c r="C21">
+        <f t="array" ref="C21">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>82883679</v>
+      </c>
+      <c r="D21">
+        <f t="shared" si="0" />
+        <v>1.2523461773285713</v>
+      </c>
+      <c r="E21">
+        <f t="shared" si="1" />
+        <v>0.10436218144404762</v>
+      </c>
+      <c r="F21">
+        <f t="array" ref="F21">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>72949510</v>
+      </c>
+      <c r="G21">
+        <f t="shared" si="2" />
+        <v>0.98697771828909242</v>
+      </c>
+      <c r="H21">
+        <f t="shared" si="3" />
+        <v>8.2248143190757697E-2</v>
+      </c>
+      <c r="I21">
+        <f t="array" ref="I21">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>0</v>
+      </c>
+      <c r="J21">
+        <f t="shared" si="4" />
+        <v>0</v>
+      </c>
+      <c r="K21">
+        <f t="shared" si="5" />
+        <v>0</v>
+      </c>
+    </row>
+    <row r="22">
+      <c r="B22" t="str">
+        <f t="array" ref="B22">INDEX($B$3:$M$3,ROW()-10)</f>
+        <v>дек</v>
+      </c>
+      <c r="C22">
+        <f t="array" ref="C22">INDEX($B$4:$M$4,ROW()-10)</f>
+        <v>65881945</v>
+      </c>
+      <c r="D22">
+        <f t="shared" si="0" />
+        <v>0.99545535346857839</v>
+      </c>
+      <c r="E22">
+        <f t="shared" si="1" />
+        <v>8.2954612789048199E-2</v>
+      </c>
+      <c r="F22">
+        <f t="array" ref="F22">INDEX($B$5:$M$5,ROW()-10)</f>
+        <v>71608529.439999998</v>
+      </c>
+      <c r="G22">
+        <f t="shared" si="2" />
+        <v>0.96883478719361515</v>
+      </c>
+      <c r="H22">
+        <f t="shared" si="3" />
+        <v>8.0736232266134592E-2</v>
+      </c>
+      <c r="I22">
+        <f t="array" ref="I22">INDEX($B$6:$M$6,ROW()-10)</f>
+        <v>0</v>
+      </c>
+      <c r="J22">
+        <f t="shared" si="4" />
+        <v>0</v>
+      </c>
+      <c r="K22">
+        <f t="shared" si="5" />
+        <v>0</v>
+      </c>
+    </row>
+    <row r="23">
+      <c r="B23" t="inlineStr">
+        <is>
+          <t>Итого</t>
+        </is>
+      </c>
+      <c r="C23">
+        <f>SUM(C11:C22)</f>
+        <v>794192664.94000006</v>
+      </c>
+      <c r="D23">
+        <f>AVERAGE(D11:D22)</f>
+        <v>1</v>
+      </c>
+      <c r="E23">
+        <f>SUM(E11:E22)</f>
+        <v>1</v>
+      </c>
+      <c r="F23">
+        <f>SUM(F11:F22)</f>
+        <v>886944156.67000008</v>
+      </c>
+      <c r="G23">
+        <f>IFERROR(AVERAGE(G11:G22),"")</f>
+        <v>0.99999999999999967</v>
+      </c>
+      <c r="H23">
+        <f>SUM(H11:H22)</f>
+        <v>0.99999999999999978</v>
+      </c>
+      <c r="I23">
+        <f>SUM(I11:I22)</f>
+        <v>534666749.24000001</v>
+      </c>
+      <c r="J23">
+        <f>IFERROR(AVERAGE(J11:J22),"")</f>
+        <v>0.75</v>
+      </c>
+      <c r="K23">
+        <f>SUM(K11:K22)</f>
+        <v>1</v>
+      </c>
+    </row>
+    <row r="24" />
+    <row r="25" />
+    <row r="26" />
+    <row r="27" />
+    <row r="28" />
+    <row r="29" />
+    <row r="30" />
+    <row r="31" />
+    <row r="32" />
+    <row r="33" />
+    <row r="34" />
+    <row r="35" />
+  </sheet>
+</fixture>
