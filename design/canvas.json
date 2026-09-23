@@ -1,0 +1,58 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-09-23T09:24:16Z"
+ },
+ "title": "SystemElectric — планировщик закупок",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 1080,
+   "title": "План заказа"
+  },
+  "Sku.dc.html": {
+   "x": 1520,
+   "y": 0,
+   "w": 1440,
+   "h": 1080,
+   "title": "Карточка SKU"
+  },
+  "Risks.dc.html": {
+   "x": 0,
+   "y": 1200,
+   "w": 1440,
+   "h": 1080,
+   "title": "Риски запаса"
+  },
+  "Settings.dc.html": {
+   "x": 1520,
+   "y": 1200,
+   "w": 1440,
+   "h": 1080,
+   "title": "Параметры"
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "Sku.dc.html",
+  "Risks.dc.html",
+  "Settings.dc.html"
+ ],
+ "notes": {
+  "t1": {
+   "x": 0,
+   "y": -300,
+   "text": "Планировщик закупок Systeme Electric",
+   "kind": "title1",
+   "maxW": 2960
+  }
+ },
+ "designSystems": []
+}

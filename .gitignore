@@ -1,2 +1,7 @@
 # Default ignored files
 .idea
+
+# Выгрузки 1С и результаты — не коммитим
+data/
+*.xlsx
+__pycache__/
