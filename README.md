@@ -46,5 +46,3 @@ python prototype/order_prototype.py --data data/raw --lead-days 60 --review-days
 ```
 
 На выгрузке от 22.09.2026 при L = 60 и R = 30 дней: 218 строк на 80,3 млн по себестоимости, из них 65 строк класса A на 61,5 млн.
-
-Живые версии: [дизайн-документ](https://claude.ai/code/artifact/de90798c-c59f-403e-8c23-fd86ee881b08) · [макет](https://claude.ai/artifact/BA3GbY4Xirgb3Gnoo5x1KX)
