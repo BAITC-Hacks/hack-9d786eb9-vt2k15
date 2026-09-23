@@ -4,3 +4,4 @@ Hackathon team repository for VT2k15
 ## Team members
 
 - Nagmetulla Temirlan
+- Orynbassar Onggar
