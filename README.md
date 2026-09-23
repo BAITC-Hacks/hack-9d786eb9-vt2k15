@@ -5,3 +5,4 @@ Hackathon team repository for VT2k15
 
 - Nagmetulla Temirlan
 - Orynbassar Onggar
+- Gabit Bolatkhan
