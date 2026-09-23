@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Параметры расчёта</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"IBM Plex Sans",system-ui,sans-serif;background:#F3F2EE;color:#1B1D1F}
+a{color:#0F6E63}a:hover{color:#0A4F47}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1080px; display: flex; overflow: hidden;">
+<nav aria-label="Разделы" style="width: 232px; flex-shrink: 0; background: #1B1D1F; color: #E9E7E1; display: flex; flex-direction: column; gap: 4px; padding: 28px 16px; box-sizing: border-box;">
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 0 12px 28px 12px;">
+<div style="font-size: 18px; font-weight: 700; letter-spacing: 0.2px;">Закупки SE</div>
+<div style="font-size: 12px; color: #A9A6A0;">Systeme Electric · Алматы</div>
+</div>
+<a href="Main.dc.html" style="display: block; padding: 12px; border-radius: 8px; color: #C9C6BF; font-size: 14px; text-decoration: none;">План заказа</a>
+<a href="Risks.dc.html" style="display: block; padding: 12px; border-radius: 8px; color: #C9C6BF; font-size: 14px; text-decoration: none;">Риски</a>
+<a href="Sku.dc.html" style="display: block; padding: 12px; border-radius: 8px; color: #C9C6BF; font-size: 14px; text-decoration: none;">Карточка SKU</a>
+<a href="Settings.dc.html" style="display: block; padding: 12px; border-radius: 8px; background: #2E3134; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none;">Параметры</a>
+<div style="flex-grow: 1;"></div>
+<div style="padding: 12px; font-size: 12px; line-height: 1.5; color: #A9A6A0;">Данные на 22.09.2026<br>Сентябрь неполный, в прогноз не входит</div>
+</nav>
+
+<main style="flex-grow: 1; display: flex; gap: 20px; padding: 28px 36px; box-sizing: border-box; min-width: 0; align-items: flex-start;">
+<div style="width: 720px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; flex-direction: column; gap: 4px;"><div style="font-size: 13px; color: #5E5B55;">Меняются редко; после правки заказ пересчитывается</div><h1 style="margin: 0; font-size: 28px; font-weight: 700;">Параметры расчёта</h1></div>
+<section aria-label="Поставка" style="background: #FFFFFF; border: 1px solid #DAD7D0; border-radius: 12px; padding: 8px 20px 12px 20px;">
+<h2 style="margin: 12px 0 4px 0; font-size: 16px; font-weight: 600;">Поставка</h2>
+<div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #ECEAE5;">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><label for="lt" style="font-size: 14px; font-weight: 600;">Срок поставки, дней</label><span style="font-size: 12px; color: #5E5B55;">От заказа до прихода на склад Алматы</span></div>
+<input id="lt" type="text" value="60" style="width: 140px; height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9C6BF; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 15px; text-align: right; box-sizing: border-box;">
+</div>
+
+<div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #ECEAE5;">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><label for="rp" style="font-size: 14px; font-weight: 600;">Период пересмотра, дней</label><span style="font-size: 12px; color: #5E5B55;">Как часто размещается заказ</span></div>
+<input id="rp" type="text" value="30" style="width: 140px; height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9C6BF; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 15px; text-align: right; box-sizing: border-box;">
+</div>
+
+<div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #ECEAE5;">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><label for="bd" style="font-size: 14px; font-weight: 600;">Лимит бюджета, млн</label><span style="font-size: 12px; color: #5E5B55;">Пусто — без ограничения</span></div>
+<input id="bd" type="text" value="[БЮДЖЕТ]" style="width: 140px; height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9C6BF; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 15px; text-align: right; box-sizing: border-box;">
+</div>
+
+</section>
+<section aria-label="Уровень сервиса" style="background: #FFFFFF; border: 1px solid #DAD7D0; border-radius: 12px; padding: 8px 20px 12px 20px;">
+<h2 style="margin: 12px 0 4px 0; font-size: 16px; font-weight: 600;">Уровень сервиса по классам</h2>
+<div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #ECEAE5;">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><label for="sa" style="font-size: 14px; font-weight: 600;">Класс A</label><span style="font-size: 12px; color: #5E5B55;">80% оборота по себестоимости</span></div>
+<input id="sa" type="text" value="97%" style="width: 140px; height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9C6BF; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 15px; text-align: right; box-sizing: border-box;">
+</div>
+
+<div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #ECEAE5;">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><label for="sb" style="font-size: 14px; font-weight: 600;">Класс B</label><span style="font-size: 12px; color: #5E5B55;">следующие 15%</span></div>
+<input id="sb" type="text" value="95%" style="width: 140px; height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9C6BF; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 15px; text-align: right; box-sizing: border-box;">
+</div>
+
+<div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #ECEAE5;">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><label for="sc" style="font-size: 14px; font-weight: 600;">Класс C</label><span style="font-size: 12px; color: #5E5B55;">остальные 5%; CZ — под заказ клиента</span></div>
+<input id="sc" type="text" value="90%" style="width: 140px; height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9C6BF; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 15px; text-align: right; box-sizing: border-box;">
+</div>
+
+</section>
+<section aria-label="Очистка спроса" style="background: #FFFFFF; border: 1px solid #DAD7D0; border-radius: 12px; padding: 8px 20px 12px 20px;">
+<h2 style="margin: 12px 0 4px 0; font-size: 16px; font-weight: 600;">Очистка спроса</h2>
+<div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #ECEAE5;">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><label for="po" style="font-size: 14px; font-weight: 600;">Проектная отгрузка, × медианы</label><span style="font-size: 12px; color: #5E5B55;">Строка накладной больше порога не входит в базу</span></div>
+<input id="po" type="text" value="3" style="width: 140px; height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9C6BF; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 15px; text-align: right; box-sizing: border-box;">
+</div>
+
+<div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #ECEAE5;">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><label for="mq" style="font-size: 14px; font-weight: 600;">Не заказывать меньше, % упаковки</label><span style="font-size: 12px; color: #5E5B55;">Если остатка хватает дольше срока поставки</span></div>
+<input id="mq" type="text" value="30" style="width: 140px; height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #C9C6BF; font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 15px; text-align: right; box-sizing: border-box;">
+</div>
+
+</section>
+<div style="display: flex; gap: 10px;"><button type="button" style="height: 44px; padding: 0 18px; border-radius: 8px; border: none; background: #0F6E63; color: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;">Сохранить и пересчитать</button><button type="button" style="height: 44px; padding: 0 18px; border-radius: 8px; border: 1px solid #C9C6BF; background: #FFFFFF; color: #1B1D1F; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer;">Сбросить</button></div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
