@@ -1,5 +1,6 @@
 # Поднять фронт и бэк одной командой:  docker compose up --build
-# Открыть:  http://localhost:5173
+# Открыть:  http://localhost:8081
+# (порт 8081, чтобы не конфликтовать с `npm run dev` на 5173)
 services:
   backend:
     build:
@@ -14,7 +15,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "5173:80"
+      - "8081:80"
     depends_on:
       - backend
     restart: unless-stopped
