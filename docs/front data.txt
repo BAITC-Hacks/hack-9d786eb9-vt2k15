@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "erp_code": "000123_",
+      "supplier_id": "systeme",
+      "supplier_name": "Systeme Electric",
+      "supplier_article": "DEMO-001",
+      "name": "Тестовая розетка",
+      "unit": "шт",
+      "order_qty": 70,
+      "explanation": "Прогноз на период — 120 шт., страховой запас — 20 шт. Свободно 30 шт., ожидается 40 шт. К заказу: 120 + 20 − 30 − 40 = 70 шт."
+    }
+  ]
+}
