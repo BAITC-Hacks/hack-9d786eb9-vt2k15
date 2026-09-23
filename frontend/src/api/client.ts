@@ -1,5 +1,5 @@
 import { backendField } from "./reports";
-import type { ApiError, ApproveRequest, ApproveResponse, OrdersResponse, ReportKind, UploadResponse } from "./types";
+import type { ApiError, ApproveRequest, ApproveResponse, OrderItem, OrdersResponse, ReportKind, UploadResponse } from "./types";
 
 const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? "";
 
@@ -30,8 +30,34 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+/** Параметры расчёта заказа. Дефолты совпадают с прототипом (L = 60, R = 30). */
+export interface PlanParams {
+  leadDays?: number;
+  reviewDays?: number;
+  historyMonths?: number;
+  forecastGrowthPercent?: number;
+}
+
 export const api = {
-  orders: () => request<OrdersResponse>("/api/orders"),
+  /**
+   * GET /api/orders — backend требует leadDays и reviewDays и считает по последней загрузке.
+   * `order_multiple` бэкенда маппим в `moq` (кратность упаковки), как ждёт UI.
+   */
+  orders: async (params?: PlanParams): Promise<OrdersResponse> => {
+    const q = new URLSearchParams({
+      leadDays: String(params?.leadDays ?? 60),
+      reviewDays: String(params?.reviewDays ?? 30),
+      historyMonths: String(params?.historyMonths ?? 12),
+      forecastGrowthPercent: String(params?.forecastGrowthPercent ?? 0),
+    });
+    const res = await request<{ items: (OrderItem & { order_multiple?: number | null })[] }>(`/api/orders?${q}`);
+    return {
+      items: res.items.map(({ order_multiple, ...rest }) => ({
+        ...rest,
+        moq: rest.moq ?? order_multiple ?? undefined,
+      })),
+    };
+  },
   approve: (body: ApproveRequest) =>
     request<ApproveResponse>("/api/orders/approve", { method: "POST", body: JSON.stringify(body) }),
 };

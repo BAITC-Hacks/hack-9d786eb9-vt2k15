@@ -13,7 +13,7 @@ type Urgency = NonNullable<OrderItem["urgency"]>;
 export function PlanPage({ onGoImport }: { onGoImport: () => void }) {
   const { data, isPending, isError, error, refetch, isFetching } = useQuery({
     queryKey: ["orders"],
-    queryFn: api.orders,
+    queryFn: () => api.orders(),
   });
 
   const [supplier, setSupplier] = useState<string>("all");
