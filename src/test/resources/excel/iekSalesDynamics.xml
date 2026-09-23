@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fixture>
+  <sheet name="Лист_1" state="visible">
+    <row r="1">
+      <c r="A1" t="inlineStr">
+        <is>
+          <t>
+		Дата
+	</t>
+        </is>
+      </c>
+      <c r="B1" t="inlineStr">
+        <is>
+          <t>
+		Номер
+	</t>
+        </is>
+      </c>
+      <c r="C1" t="inlineStr">
+        <is>
+          <t>
+		Документ
+	</t>
+        </is>
+      </c>
+      <c r="D1" t="inlineStr">
+        <is>
+          <t>
+		Код
+	</t>
+        </is>
+      </c>
+      <c r="E1" t="inlineStr">
+        <is>
+          <t>
+		Номенклатура
+	</t>
+        </is>
+      </c>
+      <c r="F1" t="inlineStr">
+        <is>
+          <t>
+		Ед.
+	</t>
+        </is>
+      </c>
+      <c r="G1" t="inlineStr">
+        <is>
+          <t>
+		Склад
+	</t>
+        </is>
+      </c>
+      <c r="H1" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+    </row>
+    <row r="2">
+      <c r="A2" t="inlineStr">
+        <is>
+          <t>
+		20.07.2023 16:15:38
+	</t>
+        </is>
+      </c>
+      <c r="B2" t="inlineStr">
+        <is>
+          <t>
+		20000067390
+	</t>
+        </is>
+      </c>
+      <c r="C2" t="inlineStr">
+        <is>
+          <t>
+		Расходная накладная 20000067390 от 20.07.2023
+	</t>
+        </is>
+      </c>
+      <c r="D2" t="inlineStr">
+        <is>
+          <t>
+		030200874_
+	</t>
+        </is>
+      </c>
+      <c r="E2" t="inlineStr">
+        <is>
+          <t>
+		Выкл 1-кл. прох. с инд.  10А "BRITE" графит (1/100)
+	</t>
+        </is>
+      </c>
+      <c r="F2" t="inlineStr">
+        <is>
+          <t>
+		шт
+	</t>
+        </is>
+      </c>
+      <c r="G2" t="inlineStr">
+        <is>
+          <t>
+		Алматы
+	</t>
+        </is>
+      </c>
+      <c r="H2" t="n">
+        <v>-10</v>
+      </c>
+    </row>
+  </sheet>
+</fixture>

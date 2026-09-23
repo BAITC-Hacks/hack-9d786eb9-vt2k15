@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fixture>
+  <sheet name="Лист_1" state="visible">
+    <row r="1">
+      <c r="A1" t="inlineStr">
+        <is>
+          <t>№</t>
+        </is>
+      </c>
+      <c r="B1" t="inlineStr">
+        <is>
+          <t>Номенклатура</t>
+        </is>
+      </c>
+      <c r="C1" t="inlineStr">
+        <is>
+          <t>Номенклатура.Код</t>
+        </is>
+      </c>
+      <c r="D1" t="inlineStr">
+        <is>
+          <t>Ед.изм</t>
+        </is>
+      </c>
+      <c r="E1" t="inlineStr">
+        <is>
+          <t>янв. 2024</t>
+        </is>
+      </c>
+      <c r="F1" t="inlineStr">
+        <is>
+          <t>февр. 2024</t>
+        </is>
+      </c>
+      <c r="G1" t="inlineStr">
+        <is>
+          <t>март 2024</t>
+        </is>
+      </c>
+      <c r="H1" t="inlineStr">
+        <is>
+          <t>апр. 2024</t>
+        </is>
+      </c>
+      <c r="I1" t="inlineStr">
+        <is>
+          <t>май 2024</t>
+        </is>
+      </c>
+      <c r="J1" t="inlineStr">
+        <is>
+          <t>июнь 2024</t>
+        </is>
+      </c>
+      <c r="K1" t="inlineStr">
+        <is>
+          <t>июль 2024</t>
+        </is>
+      </c>
+      <c r="L1" t="inlineStr">
+        <is>
+          <t>авг. 2024</t>
+        </is>
+      </c>
+      <c r="M1" t="inlineStr">
+        <is>
+          <t>сент. 2024</t>
+        </is>
+      </c>
+      <c r="N1" t="inlineStr">
+        <is>
+          <t>окт. 2024</t>
+        </is>
+      </c>
+      <c r="O1" t="inlineStr">
+        <is>
+          <t>нояб. 2024</t>
+        </is>
+      </c>
+      <c r="P1" t="inlineStr">
+        <is>
+          <t>дек. 2024</t>
+        </is>
+      </c>
+      <c r="Q1" t="inlineStr">
+        <is>
+          <t>янв. 2025</t>
+        </is>
+      </c>
+      <c r="R1" t="inlineStr">
+        <is>
+          <t>февр. 2025</t>
+        </is>
+      </c>
+      <c r="S1" t="inlineStr">
+        <is>
+          <t>март 2025</t>
+        </is>
+      </c>
+      <c r="T1" t="inlineStr">
+        <is>
+          <t>апр. 2025</t>
+        </is>
+      </c>
+      <c r="U1" t="inlineStr">
+        <is>
+          <t>май 2025</t>
+        </is>
+      </c>
+      <c r="V1" t="inlineStr">
+        <is>
+          <t>июнь 2025</t>
+        </is>
+      </c>
+      <c r="W1" t="inlineStr">
+        <is>
+          <t>июль 2025</t>
+        </is>
+      </c>
+      <c r="X1" t="inlineStr">
+        <is>
+          <t>авг. 2025</t>
+        </is>
+      </c>
+      <c r="Y1" t="inlineStr">
+        <is>
+          <t>сент. 2025</t>
+        </is>
+      </c>
+      <c r="Z1" t="inlineStr">
+        <is>
+          <t>окт. 2025</t>
+        </is>
+      </c>
+      <c r="AA1" t="inlineStr">
+        <is>
+          <t>нояб. 2025</t>
+        </is>
+      </c>
+      <c r="AB1" t="inlineStr">
+        <is>
+          <t>дек. 2025</t>
+        </is>
+      </c>
+      <c r="AC1" t="inlineStr">
+        <is>
+          <t>янв. 2026</t>
+        </is>
+      </c>
+      <c r="AD1" t="inlineStr">
+        <is>
+          <t>февр. 2026</t>
+        </is>
+      </c>
+      <c r="AE1" t="inlineStr">
+        <is>
+          <t>март 2026</t>
+        </is>
+      </c>
+      <c r="AF1" t="inlineStr">
+        <is>
+          <t>апр. 2026</t>
+        </is>
+      </c>
+      <c r="AG1" t="inlineStr">
+        <is>
+          <t>май 2026</t>
+        </is>
+      </c>
+      <c r="AH1" t="inlineStr">
+        <is>
+          <t>июнь 2026</t>
+        </is>
+      </c>
+      <c r="AI1" t="inlineStr">
+        <is>
+          <t>июль 2026</t>
+        </is>
+      </c>
+      <c r="AJ1" t="inlineStr">
+        <is>
+          <t>авг. 2026</t>
+        </is>
+      </c>
+      <c r="AK1" t="inlineStr">
+        <is>
+          <t>сент. 2026</t>
+        </is>
+      </c>
+    </row>
+    <row r="2" />
+    <row r="3" />
+    <row r="4">
+      <c r="A4">
+        <v>1</v>
+      </c>
+      <c r="B4" t="inlineStr">
+        <is>
+          <t> AtlasDesign Розетка 1я Алюминий без  з/к без штор. 16А, в сборе, ATN000340 (10)</t>
+        </is>
+      </c>
+      <c r="C4" t="inlineStr">
+        <is>
+          <t>300200635_</t>
+        </is>
+      </c>
+      <c r="D4" t="inlineStr">
+        <is>
+          <t>шт</t>
+        </is>
+      </c>
+    </row>
+  </sheet>
+</fixture>

@@ -1,0 +1,871 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fixture>
+  <sheet name="Лист_1" state="visible">
+    <row r="1">
+      <c r="A1" t="inlineStr">
+        <is>
+          <t>
+		Номенклатура
+	</t>
+        </is>
+      </c>
+      <c r="B1" t="inlineStr">
+        <is>
+          <t>
+		Ед.
+	</t>
+        </is>
+      </c>
+      <c r="C1" t="inlineStr">
+        <is>
+          <t>
+		Номенклатура.Код
+	</t>
+        </is>
+      </c>
+      <c r="D1" t="inlineStr">
+        <is>
+          <t>
+		янв. 2024
+	</t>
+        </is>
+      </c>
+      <c r="E1" t="inlineStr">
+        <is>
+          <t>
+		февр. 2024
+	</t>
+        </is>
+      </c>
+      <c r="F1" t="inlineStr">
+        <is>
+          <t>
+		март 2024
+	</t>
+        </is>
+      </c>
+      <c r="G1" t="inlineStr">
+        <is>
+          <t>
+		апр. 2024
+	</t>
+        </is>
+      </c>
+      <c r="H1" t="inlineStr">
+        <is>
+          <t>
+		май 2024
+	</t>
+        </is>
+      </c>
+      <c r="I1" t="inlineStr">
+        <is>
+          <t>
+		июнь 2024
+	</t>
+        </is>
+      </c>
+      <c r="J1" t="inlineStr">
+        <is>
+          <t>
+		июль 2024
+	</t>
+        </is>
+      </c>
+      <c r="K1" t="inlineStr">
+        <is>
+          <t>
+		авг. 2024
+	</t>
+        </is>
+      </c>
+      <c r="L1" t="inlineStr">
+        <is>
+          <t>
+		сент. 2024
+	</t>
+        </is>
+      </c>
+      <c r="M1" t="inlineStr">
+        <is>
+          <t>
+		окт. 2024
+	</t>
+        </is>
+      </c>
+      <c r="N1" t="inlineStr">
+        <is>
+          <t>
+		нояб. 2024
+	</t>
+        </is>
+      </c>
+      <c r="O1" t="inlineStr">
+        <is>
+          <t>
+		дек. 2024
+	</t>
+        </is>
+      </c>
+      <c r="P1" t="inlineStr">
+        <is>
+          <t>
+		янв. 2025
+	</t>
+        </is>
+      </c>
+      <c r="Q1" t="inlineStr">
+        <is>
+          <t>
+		февр. 2025
+	</t>
+        </is>
+      </c>
+      <c r="R1" t="inlineStr">
+        <is>
+          <t>
+		март 2025
+	</t>
+        </is>
+      </c>
+      <c r="S1" t="inlineStr">
+        <is>
+          <t>
+		апр. 2025
+	</t>
+        </is>
+      </c>
+      <c r="T1" t="inlineStr">
+        <is>
+          <t>
+		май 2025
+	</t>
+        </is>
+      </c>
+      <c r="U1" t="inlineStr">
+        <is>
+          <t>
+		июнь 2025
+	</t>
+        </is>
+      </c>
+      <c r="V1" t="inlineStr">
+        <is>
+          <t>
+		июль 2025
+	</t>
+        </is>
+      </c>
+      <c r="W1" t="inlineStr">
+        <is>
+          <t>
+		авг. 2025
+	</t>
+        </is>
+      </c>
+      <c r="X1" t="inlineStr">
+        <is>
+          <t>
+		сент. 2025
+	</t>
+        </is>
+      </c>
+      <c r="Y1" t="inlineStr">
+        <is>
+          <t>
+		окт. 2025
+	</t>
+        </is>
+      </c>
+      <c r="Z1" t="inlineStr">
+        <is>
+          <t>
+		нояб. 2025
+	</t>
+        </is>
+      </c>
+      <c r="AA1" t="inlineStr">
+        <is>
+          <t>
+		дек. 2025
+	</t>
+        </is>
+      </c>
+      <c r="AB1" t="inlineStr">
+        <is>
+          <t>
+		янв. 2026
+	</t>
+        </is>
+      </c>
+      <c r="AC1" t="inlineStr">
+        <is>
+          <t>
+		февр. 2026
+	</t>
+        </is>
+      </c>
+      <c r="AD1" t="inlineStr">
+        <is>
+          <t>
+		март 2026
+	</t>
+        </is>
+      </c>
+      <c r="AE1" t="inlineStr">
+        <is>
+          <t>
+		апр. 2026
+	</t>
+        </is>
+      </c>
+      <c r="AF1" t="inlineStr">
+        <is>
+          <t>
+		май 2026
+	</t>
+        </is>
+      </c>
+      <c r="AG1" t="inlineStr">
+        <is>
+          <t>
+		июнь 2026
+	</t>
+        </is>
+      </c>
+      <c r="AH1" t="inlineStr">
+        <is>
+          <t>
+		июль 2026
+	</t>
+        </is>
+      </c>
+      <c r="AI1" t="inlineStr">
+        <is>
+          <t>
+		авг. 2026
+	</t>
+        </is>
+      </c>
+      <c r="AJ1" t="inlineStr">
+        <is>
+          <t>
+		сент. 2026
+	</t>
+        </is>
+      </c>
+      <c r="AK1" t="inlineStr">
+        <is>
+          <t>
+		Итого
+	</t>
+        </is>
+      </c>
+    </row>
+    <row r="2">
+      <c r="D2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="E2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="F2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="G2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="H2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="I2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="J2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="K2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="L2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="M2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="N2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="O2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="P2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="Q2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="R2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="S2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="T2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="U2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="V2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="W2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="X2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="Y2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="Z2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AA2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AB2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AC2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AD2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AE2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AF2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AG2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AH2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AI2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AJ2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+      <c r="AK2" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+    </row>
+    <row r="3">
+      <c r="D3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="E3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="F3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="G3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="H3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="I3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="J3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="K3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="L3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="M3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="N3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="O3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="P3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="Q3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="R3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="S3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="T3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="U3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="V3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="W3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="X3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="Y3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="Z3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AA3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AB3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AC3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AD3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AE3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AF3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AG3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AH3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AI3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AJ3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+      <c r="AK3" t="inlineStr">
+        <is>
+          <t>
+		нач. остаток
+	</t>
+        </is>
+      </c>
+    </row>
+    <row r="4">
+      <c r="A4" t="inlineStr">
+        <is>
+          <t>
+		  F/UTP (24 AWG), кат.5Е экран, 4 пары, серый  305м ITK
+	</t>
+        </is>
+      </c>
+      <c r="B4" t="inlineStr">
+        <is>
+          <t>
+		м
+	</t>
+        </is>
+      </c>
+      <c r="C4" t="inlineStr">
+        <is>
+          <t>
+		200400085_
+	</t>
+        </is>
+      </c>
+      <c r="D4" t="n">
+        <v>19723</v>
+      </c>
+      <c r="E4" t="n">
+        <v>11404</v>
+      </c>
+      <c r="F4" t="n">
+        <v>11040</v>
+      </c>
+      <c r="G4" t="n">
+        <v>14037</v>
+      </c>
+      <c r="H4" t="n">
+        <v>13582</v>
+      </c>
+      <c r="I4" t="n">
+        <v>12811</v>
+      </c>
+      <c r="J4" t="n">
+        <v>16559</v>
+      </c>
+      <c r="K4" t="n">
+        <v>10843</v>
+      </c>
+      <c r="L4" t="n">
+        <v>17244</v>
+      </c>
+      <c r="M4" t="n">
+        <v>13438</v>
+      </c>
+      <c r="N4" t="n">
+        <v>22824</v>
+      </c>
+      <c r="O4" t="n">
+        <v>25404</v>
+      </c>
+      <c r="P4" t="n">
+        <v>28834</v>
+      </c>
+      <c r="Q4" t="n">
+        <v>22317</v>
+      </c>
+      <c r="R4" t="n">
+        <v>18512</v>
+      </c>
+      <c r="S4" t="n">
+        <v>11651</v>
+      </c>
+      <c r="T4" t="n">
+        <v>1994</v>
+      </c>
+      <c r="U4" t="n">
+        <v>276</v>
+      </c>
+      <c r="V4" t="n">
+        <v>22072</v>
+      </c>
+      <c r="W4" t="n">
+        <v>16090</v>
+      </c>
+      <c r="X4" t="n">
+        <v>13479</v>
+      </c>
+      <c r="Y4" t="n">
+        <v>23376</v>
+      </c>
+      <c r="Z4" t="n">
+        <v>24936</v>
+      </c>
+      <c r="AA4" t="n">
+        <v>22584</v>
+      </c>
+      <c r="AB4" t="n">
+        <v>17689</v>
+      </c>
+      <c r="AC4" t="n">
+        <v>16159</v>
+      </c>
+      <c r="AD4" t="n">
+        <v>13159</v>
+      </c>
+      <c r="AE4" t="n">
+        <v>12689</v>
+      </c>
+      <c r="AF4" t="n">
+        <v>13584</v>
+      </c>
+      <c r="AG4" t="n">
+        <v>12429</v>
+      </c>
+      <c r="AH4" t="n">
+        <v>7449</v>
+      </c>
+      <c r="AI4" t="n">
+        <v>9254</v>
+      </c>
+      <c r="AJ4" t="n">
+        <v>9084</v>
+      </c>
+      <c r="AK4" t="n">
+        <v>19723</v>
+      </c>
+    </row>
+  </sheet>
+</fixture>

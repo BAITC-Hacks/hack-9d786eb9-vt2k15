@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fixture>
+  <sheet name="Лист_1" state="visible">
+    <row r="1">
+      <c r="A1" t="inlineStr">
+        <is>
+          <t>
+		Дата
+	</t>
+        </is>
+      </c>
+      <c r="B1" t="inlineStr">
+        <is>
+          <t>
+		Номер
+	</t>
+        </is>
+      </c>
+      <c r="C1" t="inlineStr">
+        <is>
+          <t>
+		Документ
+	</t>
+        </is>
+      </c>
+      <c r="D1" t="inlineStr">
+        <is>
+          <t>
+		Код
+	</t>
+        </is>
+      </c>
+      <c r="E1" t="inlineStr">
+        <is>
+          <t>
+		Номенклатура
+	</t>
+        </is>
+      </c>
+      <c r="F1" t="inlineStr">
+        <is>
+          <t>
+		Ед.
+	</t>
+        </is>
+      </c>
+      <c r="G1" t="inlineStr">
+        <is>
+          <t>
+		Склад
+	</t>
+        </is>
+      </c>
+      <c r="H1" t="inlineStr">
+        <is>
+          <t>
+		Количество
+	</t>
+        </is>
+      </c>
+    </row>
+    <row r="2">
+      <c r="A2" t="inlineStr">
+        <is>
+          <t>
+		18.01.2023 16:00:11
+	</t>
+        </is>
+      </c>
+      <c r="B2" t="inlineStr">
+        <is>
+          <t>
+		20000004016
+	</t>
+        </is>
+      </c>
+      <c r="C2" t="inlineStr">
+        <is>
+          <t>
+		Расходная накладная 20000004016 от 18.01.2023
+	</t>
+        </is>
+      </c>
+      <c r="D2" t="inlineStr">
+        <is>
+          <t>
+		300200445_
+	</t>
+        </is>
+      </c>
+      <c r="E2" t="inlineStr">
+        <is>
+          <t>
+		А409 Рамка 5-ная "ATLAS" алюминий ATN305 (5)
+	</t>
+        </is>
+      </c>
+      <c r="F2" t="inlineStr">
+        <is>
+          <t>
+		шт
+	</t>
+        </is>
+      </c>
+      <c r="G2" t="inlineStr">
+        <is>
+          <t>
+		Алматы
+	</t>
+        </is>
+      </c>
+      <c r="H2" t="n">
+        <v>-10</v>
+      </c>
+    </row>
+  </sheet>
+</fixture>
