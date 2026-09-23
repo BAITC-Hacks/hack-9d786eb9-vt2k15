@@ -1,12 +1,14 @@
-const NAV = [
-  { label: "План заказа", ready: true },
-  { label: "Риски", ready: false },
-  { label: "Спросить AI", ready: false },
-  { label: "Загрузка данных", ready: false },
-  { label: "Параметры", ready: false },
+export type Route = "plan" | "import";
+
+const NAV: { label: string; route?: Route; href?: string }[] = [
+  { label: "План заказа", route: "plan", href: "#/" },
+  { label: "Риски" },
+  { label: "Спросить AI" },
+  { label: "Загрузка данных", route: "import", href: "#/import" },
+  { label: "Параметры" },
 ];
 
-export function Sidebar() {
+export function Sidebar({ route }: { route: Route }) {
   return (
     <nav className="sidebar" aria-label="Разделы">
       <div className="brand">
@@ -14,8 +16,13 @@ export function Sidebar() {
         <div className="brand-sub">Электрокомплект · Алматы</div>
       </div>
       {NAV.map((n) =>
-        n.ready ? (
-          <a key={n.label} href="#" className="nav-link on" aria-current="page">
+        n.route ? (
+          <a
+            key={n.label}
+            href={n.href}
+            className={`nav-link ${route === n.route ? "on" : ""}`}
+            aria-current={route === n.route ? "page" : undefined}
+          >
             {n.label}
           </a>
         ) : (

@@ -1,4 +1,4 @@
-import type { ApiError, ApproveRequest, ApproveResponse, OrdersResponse } from "./types";
+import type { ApiError, ApproveRequest, ApproveResponse, ImportResult, OrdersResponse, ReportKind } from "./types";
 
 const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? "";
 
@@ -34,3 +34,35 @@ export const api = {
   approve: (body: ApproveRequest) =>
     request<ApproveResponse>("/api/orders/approve", { method: "POST", body: JSON.stringify(body) }),
 };
+
+/**
+ * POST /api/imports — multipart/form-data, одно поле на отчёт: имя поля = тип отчёта
+ * (sales_tx, stock_monthly, …), значение = файл. XHR, чтобы показывать прогресс загрузки.
+ */
+export function uploadReports(
+  files: { kind: ReportKind; file: File }[],
+  onProgress: (share: number) => void,
+): Promise<ImportResult> {
+  const form = new FormData();
+  for (const f of files) form.append(f.kind, f.file, f.file.name);
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${BASE}/api/imports`);
+    xhr.upload.onprogress = (e) => e.lengthComputable && onProgress(e.loaded / e.total);
+    xhr.onload = () => {
+      let body: unknown;
+      try {
+        body = JSON.parse(xhr.responseText);
+      } catch {
+        /* не JSON */
+      }
+      if (xhr.status >= 200 && xhr.status < 300) resolve(body as ImportResult);
+      else {
+        const err = (body as ApiError | undefined)?.error;
+        reject(new HttpError(xhr.status, err?.message ?? `Ошибка ${xhr.status}`, err?.request_id));
+      }
+    };
+    xhr.onerror = () => reject(new HttpError(0, "Нет связи с сервером"));
+    xhr.send(form);
+  });
+}
