@@ -50,6 +50,7 @@ data class OrderPlanningParameters(
     val reviewDays: Int,
     val historyMonths: Int,
     val forecastGrowthPercent: BigDecimal,
+    val anomalyMultiplier: BigDecimal = BigDecimal("3"),
 ) {
     val horizonDays: Int get() = leadDays + reviewDays
 }
@@ -65,6 +66,7 @@ data class DemandForecast(
     val stockoutAdjustment: BigDecimal,
     val excludedOutlierQuantity: BigDecimal,
     val warnings: List<String>,
+    val excludedSales: List<SaleAnomaly> = emptyList(),
 )
 
 data class OrderRecommendation(
@@ -108,6 +110,15 @@ data class OrderSupplierSummary(
     val noOrderNeeded: Int,
 )
 
+data class ExcludedSalesSummary(
+    val supplierId: String,
+    val productCode: String,
+    val productName: String?,
+    val unit: String?,
+    val excludedQuantity: BigDecimal,
+    val sales: List<SaleAnomaly>,
+)
+
 data class OrderPlanningResponse(
     val parameters: OrderPlanningParameters,
     val items: List<OrderRecommendation>,
@@ -115,4 +126,5 @@ data class OrderPlanningResponse(
     val review: List<SkippedOrderProduct>,
     val suppliers: List<OrderSupplierSummary>,
     val warnings: List<String>,
+    val excludedSales: List<ExcludedSalesSummary> = emptyList(),
 )

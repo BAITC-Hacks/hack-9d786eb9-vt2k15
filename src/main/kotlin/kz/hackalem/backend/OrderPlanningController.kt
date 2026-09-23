@@ -13,9 +13,10 @@ class OrderPlanningController(private val planning: OrderPlanningService) {
         @RequestParam reviewDays: Int,
         @RequestParam(defaultValue = "12") historyMonths: Int,
         @RequestParam(defaultValue = "0") forecastGrowthPercent: BigDecimal,
+        @RequestParam(defaultValue = "3") anomalyMultiplier: BigDecimal,
         @RequestParam(required = false) supplierId: String?,
         @RequestParam(required = false) category: String?,
     ): OrderPlanningResponse = planning.recommend(
-        OrderPlanningParameters(leadDays, reviewDays, historyMonths, forecastGrowthPercent), supplierId, category,
+        OrderPlanningParameters(leadDays, reviewDays, historyMonths, forecastGrowthPercent, anomalyMultiplier), supplierId, category,
     )
 }
