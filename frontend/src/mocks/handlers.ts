@@ -43,41 +43,43 @@ export const handlers = [
     await delay(scenario() === "slow" ? 3000 : 900);
     if (scenario() === "upload-error") {
       return HttpResponse.json(
-        { error: { code: "bad_file", message: "Файл «Товар в пути» не читается: нет колонки «Код 1с»", request_id: "mock-2b81c0" } },
+        { error: { code: "bad_file", message: "IEK · «Товар в пути»: не найдена колонка «Код 1с»", request_id: "mock-2b81c0" } },
         { status: 422 },
       );
     }
     const form = await request.formData();
-    // реальные цифры по выгрузкам SystemElectric от 22.09.2026
-    const stats: Record<ReportKind, { rows: number; skus: number; status: "ok" | "warning" }> = {
-      sales_tx: { rows: 77309, skus: 565, status: "ok" },
-      sales_monthly: { rows: 557, skus: 557, status: "ok" },
-      stock_monthly: { rows: 704, skus: 704, status: "warning" },
-      seasonality: { rows: 3, skus: 0, status: "ok" },
-      in_transit: { rows: 497, skus: 497, status: "warning" },
-      moq: { rows: 554, skus: 554, status: "warning" },
+    // реальные цифры по выгрузкам от 22.09.2026
+    type Stat = { rows: number; skus: number; status: "ok" | "warning" };
+    const stats: Record<string, Partial<Record<ReportKind, Stat>>> = {
+      systeme: {
+        sales_tx: { rows: 77309, skus: 565, status: "ok" },
+        sales_monthly: { rows: 557, skus: 557, status: "ok" },
+        stock_monthly: { rows: 704, skus: 704, status: "warning" },
+        seasonality: { rows: 3, skus: 0, status: "ok" },
+        in_transit: { rows: 497, skus: 497, status: "warning" },
+        moq: { rows: 554, skus: 554, status: "warning" },
+      },
+      iek: {
+        sales_tx: { rows: 171604, skus: 2151, status: "ok" },
+        sales_monthly: { rows: 2463, skus: 2463, status: "ok" },
+        stock_monthly: { rows: 2853, skus: 2853, status: "ok" },
+        seasonality: { rows: 3, skus: 0, status: "ok" },
+        in_transit: { rows: 2641, skus: 2616, status: "ok" },
+        moq: { rows: 1937, skus: 1937, status: "ok" },
+      },
     };
-    const files = [...form.entries()].map(([kind, f]) => ({
-      kind: kind as ReportKind,
-      filename: (f as File).name,
-      ...stats[kind as ReportKind],
-    }));
-    const kinds = new Set(files.map((f) => f.kind));
-    const issues: ImportResult["issues"] = [];
-    if (kinds.has("stock_monthly") && kinds.has("in_transit")) {
-      issues.push({ severity: "warning", code: "sku_not_in_plan", message: "SKU есть в остатках, но нет в «Товар в пути» — не попадут в заказ", count: 227 });
-      issues.push({ severity: "warning", code: "no_stock_history", message: "SKU из «Товар в пути» нет в остатках — дефицитные месяцы не восстановить", count: 23 });
-    }
-    if (kinds.has("moq")) issues.push({ severity: "warning", code: "no_moq", message: "SKU без кратности — считаем кратность 1", count: 28 });
-    issues.push({ severity: "info", code: "returns", message: "Отрицательные продажи (возвраты) вынесены из спроса", count: 318 });
-    issues.push({ severity: "info", code: "partial_month", message: "Последний месяц неполный (до 22.09) — не участвует в прогнозе", count: 1 });
-    const res: ImportResult = {
-      id: `imp-${Date.now()}`,
-      uploaded_at: new Date().toISOString(),
-      can_calculate: true,
-      files,
-      issues,
-    };
+    const files = [...form.entries()].map(([key, f]) => {
+      const [supplier_id, kind] = key.split(".") as [string, ReportKind];
+      const st = stats[supplier_id]?.[kind] ?? { rows: 0, skus: 0, status: "warning" as const };
+      return { supplier_id, kind, filename: (f as File).name, ...st };
+    });
+    const issues: ImportResult["issues"] = [
+      { supplier_id: "systeme", severity: "warning", code: "sku_not_in_plan", message: "SKU есть в остатках, но нет в «Товар в пути» — не попадут в заказ", count: 227 },
+      { supplier_id: "systeme", severity: "warning", code: "no_moq", message: "SKU без кратности — считаем кратность 1", count: 28 },
+      { supplier_id: "systeme", severity: "info", code: "returns", message: "Отрицательные продажи (возвраты) вынесены из спроса", count: 318 },
+      { severity: "info", code: "partial_month", message: "Сентябрь 2026 неполный (до 22.09) — не участвует в прогнозе", count: 1 },
+    ];
+    const res: ImportResult = { id: `imp-${Date.now()}`, uploaded_at: new Date().toISOString(), can_calculate: true, files, issues };
     return HttpResponse.json(res);
   }),
 ];

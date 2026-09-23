@@ -12,8 +12,8 @@ export function Sidebar({ route }: { route: Route }) {
   return (
     <nav className="sidebar" aria-label="Разделы">
       <div className="brand">
-        <div className="brand-name">Закупки SE</div>
-        <div className="brand-sub">Электрокомплект · Алматы</div>
+        <div className="brand-name">Закупки ekt.kz</div>
+        <div className="brand-sub">Systeme Electric · IEK</div>
       </div>
       {NAV.map((n) =>
         n.route ? (

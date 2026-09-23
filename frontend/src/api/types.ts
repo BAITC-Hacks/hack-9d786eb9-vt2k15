@@ -54,6 +54,13 @@ export interface ImportResult {
   id: string;
   uploaded_at: string;
   can_calculate: boolean;
-  files: { kind: ReportKind; filename: string; rows: number; skus: number; status: "ok" | "warning" | "error" }[];
-  issues: { severity: "error" | "warning" | "info"; code: string; message: string; count: number }[];
+  files: {
+    supplier_id: string;
+    kind: ReportKind;
+    filename: string;
+    rows: number;
+    skus: number;
+    status: "ok" | "warning" | "error";
+  }[];
+  issues: { supplier_id?: string; severity: "error" | "warning" | "info"; code: string; message: string; count: number }[];
 }

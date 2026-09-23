@@ -1,8 +1,8 @@
-# SystemElectric — AI-планировщик закупок
+# Закупки ekt.kz — AI-планировщик закупок
 
 Hackathon team repository for VT2k15
 
-Сервис считает заказ поставщику Systeme Electric по каждому SKU из выгрузок 1С и объясняет каждую строку: очищенный спрос, сезонность, ABC×XYZ, страховой запас, товар в пути, кратность упаковки.
+Сервис считает заказы поставщикам Systeme Electric и IEK по каждому SKU из выгрузок 1С и объясняет каждую строку: очищенный спрос, сезонность, ABC×XYZ, страховой запас, товар в пути, кратность упаковки.
 
 ## Team members
 
@@ -19,7 +19,7 @@ Hackathon team repository for VT2k15
 | `docs/design.md` | Дизайн решения: проблема, находки в данных, архитектура, алгоритм, AI-слой, план |
 | `design/` | Макеты экранов: план заказа, карточка SKU, риски, параметры |
 | `prototype/order_prototype.py` | Прототип расчёта заказа на реальных выгрузках |
-| `frontend/` | Веб-интерфейс: загрузка выгрузок, план заказа, карточка позиции, утверждение |
+| `frontend/` | Веб-интерфейс «Закупки ekt.kz»: загрузка 12 выгрузок, план заказа, карточка позиции, утверждение |
 
 ## Фронтенд
 
@@ -33,9 +33,9 @@ npm run dev
 
 Откройте http://localhost:5173 — интерфейс работает на моках, бэкенд не нужен. С настоящим бэкендом: `VITE_USE_MOCKS=false BACKEND_URL=http://localhost:8000 npm run dev`.
 
-| Загрузка данных | Карточка позиции |
-| --- | --- |
-| ![Загрузка данных](frontend/docs/screenshots/import-attach.png) | ![Карточка позиции](frontend/docs/screenshots/item.png) |
+Каждый цикл менеджер загружает 12 файлов — по 6 отчётов на Systeme Electric и IEK:
+
+![Загрузка данных](frontend/docs/screenshots/import-attach.png)
 
 Экраны, сценарии моков и контракт API — в [frontend/README.md](frontend/README.md).
 
@@ -47,6 +47,4 @@ pip install -r prototype/requirements.txt
 python prototype/order_prototype.py --data data/raw --lead-days 60 --review-days 30
 ```
 
-На выгрузке от 22.09.2026 при L = 60 и R = 30 дней: 218 строк на 80,3 млн по себестоимости, из них 65 строк класса A на 61,5 млн.
-
-Живые версии: [дизайн-документ](https://claude.ai/code/artifact/de90798c-c59f-403e-8c23-fd86ee881b08) · [макет](https://claude.ai/artifact/BA3GbY4Xirgb3Gnoo5x1KX)
+На выгрузке Systeme Electric от 22.09.2026 при L = 60 и R = 30 дней: 218 строк на 80,3 млн по себестоимости, из них 65 строк класса A на 61,5 млн.
