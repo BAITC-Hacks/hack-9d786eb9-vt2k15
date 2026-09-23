@@ -34,6 +34,7 @@ class OrderPlanningService(
         val skipped = mutableListOf<SkippedOrderProduct>()
         val review = mutableListOf<SkippedOrderProduct>()
         val summaries = mutableListOf<OrderSupplierSummary>()
+        val excludedSales = mutableListOf<ExcludedSalesSummary>()
         val warnings = mutableListOf(
             "Расчёт является рекомендацией; заказы поставщикам не отправляются.",
             "ID клиентов и точные периоды отсутствия товара не предоставлены: выбросы определяются по документам, stockout оценивается по месячным срезам.",
@@ -66,6 +67,10 @@ class OrderPlanningService(
                     skipped.add(SkippedOrderProduct(source.supplierId, product.code, product.name,
                         listOf("Нет достаточной известной истории за полные месяцы выбранного периода.")))
                     return@productLoop
+                }
+                if (forecast.excludedSales.isNotEmpty()) {
+                    excludedSales.add(ExcludedSalesSummary(source.supplierId, product.code, product.name, product.unit,
+                        forecast.excludedOutlierQuantity, forecast.excludedSales))
                 }
                 val horizonEnd = requireNotNull(asOf).plusDays(parameters.horizonDays.toLong())
                 val itemWarnings = (product.warnings + forecast.warnings).toMutableList()
@@ -132,13 +137,16 @@ class OrderPlanningService(
         val priority = mapOf("high" to 0, "medium" to 1, "low" to 2)
         return OrderPlanningResponse(parameters,
             items.sortedWith(compareBy<OrderRecommendation> { it.supplierId }.thenBy { priority[it.urgency] }.thenBy { it.erpCode }),
-            skipped, review, summaries, warnings.distinct())
+            skipped, review, summaries, warnings.distinct(), excludedSales)
     }
 
     private fun validate(parameters: OrderPlanningParameters) {
         if (parameters.leadDays !in 0..365) badRequest("leadDays должен быть от 0 до 365.")
         if (parameters.reviewDays !in 1..365) badRequest("reviewDays должен быть от 1 до 365.")
         if (parameters.historyMonths !in 6..36) badRequest("historyMonths должен быть от 6 до 36.")
+        if (parameters.anomalyMultiplier <= BigDecimal.ONE || parameters.anomalyMultiplier > BigDecimal("100")) {
+            badRequest("anomalyMultiplier должен быть больше 1 и не больше 100.")
+        }
         if (parameters.forecastGrowthPercent < BigDecimal("-100") || parameters.forecastGrowthPercent > BigDecimal("300")) {
             badRequest("forecastGrowthPercent должен быть от -100 до 300.")
         }

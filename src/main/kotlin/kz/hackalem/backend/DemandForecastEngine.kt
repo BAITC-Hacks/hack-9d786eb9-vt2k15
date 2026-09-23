@@ -4,13 +4,14 @@ import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
-import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
 
 /** Transparent demand estimate; source quantities and uploaded reports remain unchanged. */
 @Component
 class DemandForecastEngine {
+    private val anomalyDetector = SaleAnomalyDetector()
+
     fun forecast(
         product: PlanningProduct,
         source: PlanningSource,
@@ -44,7 +45,11 @@ class DemandForecastEngine {
         if (unknownCount > 0) warnings += "$unknownCount мес. с неизвестными продажами исключены из расчёта, а не заменены нулём."
 
         val seasonality = normalizedSeasonality(source.seasonality, warnings)
-        val outliers = outliersByMonth(product.sales, from, through, warnings)
+        val detection = anomalyDetector.detect(product.sales, from, through, parameters.anomalyMultiplier)
+        warnings.addAll(detection.warnings)
+        val outliers = detection.anomalies.groupBy { YearMonth.from(it.documentDate) }
+            .mapValues { (_, sales) -> sales.fold(ZERO) { sum, sale -> sum.add(sale.quantity) } }
+        val excludedSales = detection.anomalies.filter { monthly[YearMonth.from(it.documentDate)] != null }
         var excluded = ZERO
         val observations = knownMonths.map { month ->
             val raw = requireNotNull(monthly[month])
@@ -52,17 +57,20 @@ class DemandForecastEngine {
             if (raw.signum() < 0) warnings += "Отрицательные продажи за $month приняты за 0 для прогноза; исходное значение $raw сохранено в отчёте."
             val outlierQuantity = outliers[month] ?: ZERO
             if (outlierQuantity.signum() > 0) {
-                if (outlierQuantity <= quantity) {
-                    quantity = quantity.subtract(outlierQuantity)
-                    excluded = excluded.add(outlierQuantity)
-                } else {
-                    warnings += "Несогласованность за $month: разовые документы ($outlierQuantity) превышают месячные продажи ($quantity); вычитание не выполнено."
+                val cleaned = quantity.subtract(outlierQuantity).max(ZERO)
+                excluded = excluded.add(quantity.subtract(cleaned))
+                if (outlierQuantity > quantity) {
+                    warnings += "Несогласованность за $month: аномальные документы ($outlierQuantity) превышают месячные продажи ($quantity); после исключения спрос ограничен нулём. Возможны возвраты или различия отчётов."
                 }
+                quantity = cleaned
             }
             Observation(month, quantity, seasonality.getValue(month.month))
         }
         outliers.keys.filter { monthly[it] == null }.forEach {
             warnings += "Разовые документы за $it не вычтены: месячные продажи неизвестны."
+        }
+        if (excludedSales.isNotEmpty()) {
+            warnings += "Исключены аномальные покупки: ${excludedSales.size} накладных; месячная история уменьшена на ${excluded.toPlainString()}. Порог: больше средней остальных покупок в ${parameters.anomalyMultiplier.toPlainString()} раза."
         }
 
         val stocks = uniqueMonths(product.stockHistory, "остатков", warnings)
@@ -87,9 +95,15 @@ class DemandForecastEngine {
 
         val baseDaily = weightedDaily(observations)
         val trend = sustainedTrend(observations, through, warnings)
-        val sourceGrowth = product.sourceGrowthChange?.let {
+        val sourceGrowth = if (detection.anomalies.isNotEmpty() && product.sourceGrowthChange != null) {
+            warnings += "Исходный коэффициент роста не применён: он рассчитан до исключения аномальных покупок. Используется тренд очищенной истории."
+            ONE
+        } else product.sourceGrowthChange?.let {
             clampGrowth(ONE.add(it), "Исходный коэффициент роста", warnings)
         } ?: ONE
+        if (detection.anomalies.isNotEmpty() && source.seasonality.isNotEmpty()) {
+            warnings += "Сезонные коэффициенты взяты из общего отчёта поставщика; их связь с отдельными аномальными накладными неизвестна."
+        }
         val seasonalDays = (1..parameters.horizonDays).fold(ZERO) { sum, day ->
             sum.add(seasonality.getValue(dataThrough.plusDays(day.toLong()).month))
         }
@@ -108,6 +122,7 @@ class DemandForecastEngine {
             stockoutAdjustment = output(stockoutAdjustment),
             excludedOutlierQuantity = output(excluded),
             warnings = warnings.toList(),
+            excludedSales = excludedSales,
         )
     }
 
@@ -132,11 +147,11 @@ class DemandForecastEngine {
         months: List<YearMonth>,
         warnings: MutableSet<String>,
     ): Map<YearMonth, BigDecimal?>? {
-        val sales = product.sales.filter { it.date != null && isExpense(it) && YearMonth.from(it.date) in months }
+        val sales = product.sales.filter { it.date != null && isExpenseSale(it) && YearMonth.from(it.date) in months }
         if (sales.none { it.quantity != null }) return null
         // A missing SKU monthly report may still have operations in the common export interval.
         val commonFirstMonth = source.products.asSequence().flatMap { it.sales.asSequence() }
-            .filter { it.date != null && isExpense(it) }
+            .filter { it.date != null && isExpenseSale(it) }
             .map { YearMonth.from(it.date) }.minOrNull()
             ?: sales.minOf { YearMonth.from(it.date) }
         val groups = sales.groupBy { YearMonth.from(it.date) }
@@ -162,39 +177,6 @@ class DemandForecastEngine {
         if (positive.isEmpty()) return Month.entries.associateWith { ONE }
         val average = positive.values.fold(ZERO, BigDecimal::add).divide(positive.size.toBigDecimal(), MC)
         return Month.entries.associateWith { positive[it]?.divide(average, MC) ?: ONE }
-    }
-
-    private fun outliersByMonth(
-        sales: List<PlanningSale>,
-        from: YearMonth,
-        through: YearMonth,
-        warnings: MutableSet<String>,
-    ): Map<YearMonth, BigDecimal> {
-        val candidates = sales.filter {
-            it.date != null && YearMonth.from(it.date) in from..through && isExpense(it) && it.quantity?.signum() == 1
-        }
-        if (candidates.isEmpty()) {
-            warnings += "Нет положительных расходных накладных для проверки разовых крупных заказов."
-            return emptyMap()
-        }
-        warnings += "ID клиента отсутствует: крупные заказы проверяются по документам, а не по покупателю."
-        if (candidates.any { it.documentNumber.isNullOrBlank() }) {
-            warnings += "Документы без номера исключены из детектора разовых крупных заказов."
-        }
-        val orders = candidates.filter { !it.documentNumber.isNullOrBlank() }
-            .groupBy { DocumentKey(requireNotNull(it.date), requireNotNull(it.documentNumber).trim()) }
-            .mapValues { (_, lines) -> lines.fold(ZERO) { sum, line -> sum.add(requireNotNull(line.quantity)) } }
-        if (orders.size < MIN_ORDERS) {
-            warnings += "Меньше $MIN_ORDERS расходных документов: недостаточно наблюдений для удаления разовых крупных заказов."
-            return emptyMap()
-        }
-        val quantities = orders.values.sorted()
-        val median = quantile(quantities, BigDecimal("0.5"))
-        val lower = quantile(quantities, BigDecimal("0.25"))
-        val upper = quantile(quantities, BigDecimal("0.75"))
-        val threshold = median.multiply(THREE).max(upper.add(upper.subtract(lower).multiply(BigDecimal("1.5"))))
-        return orders.filterValues { it > threshold }.entries.groupBy { YearMonth.from(it.key.date) }
-            .mapValues { (_, ordersInMonth) -> ordersInMonth.fold(ZERO) { sum, order -> sum.add(order.value) } }
     }
 
     private fun sustainedTrend(
@@ -243,12 +225,7 @@ class DemandForecastEngine {
         return sorted[lower].add(sorted[minOf(lower + 1, sorted.lastIndex)].subtract(sorted[lower]).multiply(remainder))
     }
 
-    private fun isExpense(sale: PlanningSale): Boolean =
-        sale.document?.trim()?.startsWith("Расходная накладная", ignoreCase = true) == true
-
     private fun output(value: BigDecimal): BigDecimal = value.setScale(6, RoundingMode.HALF_UP).stripTrailingZeros()
-
-    private data class DocumentKey(val date: LocalDate, val number: String)
 
     private data class Observation(val month: YearMonth, var quantity: BigDecimal, val seasonalIndex: BigDecimal) {
         val days: BigDecimal get() = month.lengthOfMonth().toBigDecimal()
@@ -259,9 +236,7 @@ class DemandForecastEngine {
         val MC: MathContext = MathContext.DECIMAL128
         val ZERO: BigDecimal = BigDecimal.ZERO
         val ONE: BigDecimal = BigDecimal.ONE
-        val THREE = BigDecimal("3")
         val HUNDRED = BigDecimal("100")
         const val MIN_HISTORY_MONTHS = 3
-        const val MIN_ORDERS = 5
     }
 }

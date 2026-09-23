@@ -84,6 +84,8 @@ class SourceWorkbooksTests {
             .andExpect(jsonPath("$.parameters.horizonDays").value(90))
             .andExpect(jsonPath("$.skipped").isArray)
             .andExpect(jsonPath("$.review").isArray)
+            .andExpect(jsonPath("$.parameters.anomalyMultiplier").value(3))
+            .andExpect(jsonPath("$.excludedSales").isNotEmpty)
             .andReturn().response.contentAsString
         Files.writeString(Path.of("build", "verification", "source-orders.json"), orders)
         assertSame(saved, store.currentUpload, "Calculating an order must not replace or consume the upload")

@@ -33,6 +33,55 @@ class OrderPlanningServiceTests {
     }
 
     @Test
+    fun `anomalous purchases reduce the order and remain visible even when no order is needed`() {
+        val original = product()
+        val regularSales = original.monthlySales.mapIndexed { index, month ->
+            PlanningSale(month.month.atDay(5), "regular-$index", "Расходная накладная", BigDecimal.TEN)
+        }
+        val projectSale = PlanningSale(LocalDate.of(2026, 6, 15), "project", "Расходная накладная", BigDecimal("1000"))
+        val dirty = original.copy(
+            monthlySales = original.monthlySales.map {
+                if (it.month.monthValue == 6) it.copy(value = it.value!! + projectSale.quantity!!) else it
+            },
+            sales = regularSales + projectSale,
+        )
+        val result = calculate(dirty)
+        number("150", result.items.single().orderQty)
+        val excluded = result.excludedSales.single()
+        assertEquals("systeme", excluded.supplierId)
+        assertEquals(original.code, excluded.productCode)
+        number("1000", excluded.excludedQuantity)
+        assertEquals("project", excluded.sales.single().documentNumber)
+        number("10", excluded.sales.single().averageOtherQuantity)
+        number("30", excluded.sales.single().thresholdQuantity)
+        assertEquals(6, excluded.sales.single().comparisonOrderCount)
+
+        val sufficientStock = calculate(dirty.copy(stock = BigDecimal("500")))
+        assertTrue(sufficientStock.items.isEmpty())
+        assertEquals(excluded, sufficientStock.excludedSales.single())
+        assertTrue(sufficientStock.review.single().reasons.any { "Исключены аномальные покупки" in it })
+        number("1300", dirty.monthlySales.last().value!!)
+        assertEquals(projectSale, dirty.sales.last(), "Planning must not remove original sales from memory")
+    }
+
+    @Test
+    fun `anomaly baselines do not mix suppliers or products`() {
+        val base = product()
+        fun withPurchases(quantity: Int): PlanningProduct = base.copy(sales = (1..5).map {
+            PlanningSale(LocalDate.of(2026, 6, it), "invoice-$it", "Расходная накладная",
+                (if (it == 5) 100 else quantity).toBigDecimal())
+        })
+        val small = withPurchases(10)
+        val large = withPurchases(100)
+        val sources = listOf(source(small).copy(products = listOf(small, large.copy(code = "0002_"))),
+            source(large).copy(supplierId = "iek", supplierName = "IEK"))
+        val result = service.calculate(sources, parameters)
+        assertEquals(1, result.excludedSales.size)
+        assertEquals("systeme", result.excludedSales.single().supplierId)
+        assertEquals("0001_", result.excludedSales.single().productCode)
+    }
+
+    @Test
     fun `future deliveries outside horizon are not deducted`() {
         val result = calculate(product().copy(incoming = listOf(incoming("50").copy(expectedBy = LocalDate.of(2026, 9, 1))))).items.single()
         number("50", result.inTransit)
@@ -108,7 +157,8 @@ class OrderPlanningServiceTests {
     fun `no uploaded snapshot and invalid parameters return client errors`() {
         assertEquals(409, assertFailsWith<ResponseStatusException> { service.recommend(parameters) }.statusCode.value())
         for (invalid in listOf(parameters.copy(leadDays = -1), parameters.copy(reviewDays = 0), parameters.copy(historyMonths = 0),
-            parameters.copy(forecastGrowthPercent = BigDecimal("-101")))) {
+            parameters.copy(forecastGrowthPercent = BigDecimal("-101")), parameters.copy(anomalyMultiplier = BigDecimal.ONE),
+            parameters.copy(anomalyMultiplier = BigDecimal("101")))) {
             assertEquals(400, assertFailsWith<ResponseStatusException> { service.recommend(invalid) }.statusCode.value())
         }
     }

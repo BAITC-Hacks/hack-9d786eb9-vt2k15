@@ -69,18 +69,172 @@ class DemandForecastEngineTests {
         val result = forecast(project)
         assertDecimal("10000", result.excludedOutlierQuantity)
         assertEquals(forecast(ordinary).forecastQuantity, result.forecastQuantity)
-        assertTrue(result.warnings.any { "ID клиента отсутствует" in it })
+        val excluded = result.excludedSales.single()
+        assertEquals(projectDate, excluded.documentDate)
+        assertEquals("project", excluded.documentNumber)
+        assertDecimal("10000", excluded.quantity)
+        assertEquals(6, excluded.comparisonOrderCount)
+        assertDecimal("10", excluded.averageOtherQuantity)
+        assertDecimal("30", excluded.thresholdQuantity)
+        assertTrue(result.warnings.any { "Исключены аномальные покупки" in it })
     }
 
     @Test
-    fun `inconsistent large documents are warned about without subtracting from monthly sales`() {
+    fun `anomaly exceeding monthly sales removes the dirty month and reports the actual removed quantity`() {
         val months = dailyHistory(YearMonth.of(2026, 3), List(6) { 10 })
         val regular = months.mapIndexed { index, value -> sale(value.month.atDay(5), "regular-$index", 10) }
         val result = forecast(product(months, regular + sale(LocalDate.of(2026, 8, 15), "project", 10000)))
+        val clean = forecast(product(months.map {
+            if (it.month == YearMonth.of(2026, 8)) it.copy(value = BigDecimal.ZERO) else it
+        }))
 
+        assertDecimal("310", result.excludedOutlierQuantity)
+        assertDecimal("10000", result.excludedSales.single().quantity)
+        assertEquals(clean.baseDailyDemand, result.baseDailyDemand)
+        assertEquals(clean.forecastQuantity, result.forecastQuantity)
+        assertTrue(result.forecastQuantity < decimal(300))
+        assertTrue(result.warnings.any { "Несогласованность" in it })
+    }
+
+    @Test
+    fun `anomalies neutralize unclean source growth but explicit forecast growth still applies`() {
+        val months = dailyHistory(YearMonth.of(2026, 3), List(6) { 10 })
+        val regular = months.mapIndexed { index, value -> sale(value.month.atDay(5), "regular-$index", 10) }
+        val dirty = product(months.map {
+            if (it.month == YearMonth.of(2026, 8)) it.copy(value = requireNotNull(it.value) + decimal(10000)) else it
+        }, regular + sale(LocalDate.of(2026, 8, 15), "project", 10000)).copy(sourceGrowthChange = decimal(9))
+
+        val result = assertNotNull(engine.forecast(dirty, source(dirty), parameters.copy(forecastGrowthPercent = decimal(20))))
+
+        assertDecimal("1", result.sourceGrowthFactor)
+        assertDecimal("1", result.trendFactor)
+        assertDecimal("360", result.forecastQuantity)
+        assertDecimal("10000", result.excludedOutlierQuantity)
+        assertDecimal("9", requireNotNull(dirty.sourceGrowthChange))
+        assertTrue(result.warnings.any { "коэффициент роста не применён" in it })
+    }
+
+    @Test
+    fun `stockout restoration uses the reference months after anomaly exclusion`() {
+        val stockoutMonth = YearMonth.of(2026, 5)
+        val projectMonth = YearMonth.of(2026, 8)
+        val months = dailyHistory(YearMonth.of(2026, 3), List(6) { 10 }).map {
+            if (it.month == stockoutMonth) it.copy(value = BigDecimal.ZERO) else it
+        }
+        val regular = months.mapIndexed { index, value -> sale(value.month.atDay(5), "regular-$index", 10) }
+        val stocks = months.map { MonthlyValue(it.month, if (it.month == stockoutMonth) BigDecimal.ZERO else decimal(50)) }
+        val clean = product(months, regular).copy(stockHistory = stocks)
+        val dirty = clean.copy(
+            monthlySales = months.map {
+                if (it.month == projectMonth) it.copy(value = requireNotNull(it.value) + decimal(10000)) else it
+            },
+            sales = regular + sale(projectMonth.atDay(15), "project", 10000),
+        )
+
+        val result = forecast(dirty)
+        val baseline = forecast(clean)
+
+        assertDecimal("10000", result.excludedOutlierQuantity)
+        assertDecimal("310", result.stockoutAdjustment)
+        assertEquals(baseline.stockoutAdjustment, result.stockoutAdjustment)
+        assertEquals(baseline.baseDailyDemand, result.baseDailyDemand)
+        assertEquals(baseline.forecastQuantity, result.forecastQuantity)
+    }
+
+    @Test
+    fun `repeated large documents are removed before evaluating sustained trend`() {
+        val months = dailyHistory(YearMonth.of(2026, 3), List(6) { 10 })
+        val regular = months.mapIndexed { index, value -> sale(value.month.atDay(5), "regular-$index", 10) }
+        val projects = months.takeLast(3).map { sale(it.month.atDay(15), "project-${it.month}", 1000) }
+        val dirty = product(months.mapIndexed { index, value ->
+            if (index >= 3) value.copy(value = requireNotNull(value.value) + decimal(1000)) else value
+        }, regular + projects)
+
+        val result = forecast(dirty)
+
+        assertEquals(3, result.excludedSales.size)
+        assertDecimal("3000", result.excludedOutlierQuantity)
+        assertDecimal("1", result.trendFactor)
+        assertDecimal("10", result.baseDailyDemand)
+        assertEquals(forecast(product(months, regular)).forecastQuantity, result.forecastQuantity)
+    }
+
+    @Test
+    fun `dynamics fallback excludes an anomalous document exactly once`() {
+        val months = dailyHistory(YearMonth.of(2026, 3), List(6) { 10 })
+        val regular = months.mapIndexed { index, value -> sale(value.month.atDay(5), "regular-$index", requireNotNull(value.value).toInt()) }
+        val clean = product(emptyList(), regular)
+        val dirty = product(emptyList(), regular + sale(LocalDate.of(2026, 8, 15), "project", 10000))
+
+        val result = forecast(dirty)
+
+        assertDecimal("10000", result.excludedOutlierQuantity)
+        assertEquals("project", result.excludedSales.single().documentNumber)
+        assertEquals(forecast(clean).forecastQuantity, result.forecastQuantity)
+        assertDecimal("300", result.forecastQuantity)
+        assertDecimal("10000", requireNotNull(dirty.sales.last().quantity))
+        assertTrue(result.warnings.any { "восстановлена из расходных накладных" in it })
+    }
+
+    @Test
+    fun `history months changes both comparison purchases and anomaly selection period`() {
+        val months = dailyHistory(YearMonth.of(2025, 9), List(12) { 10 }).mapIndexed { index, value ->
+            when {
+                index < 6 -> value.copy(value = decimal(1000))
+                index == 11 -> value.copy(value = requireNotNull(value.value) + decimal(100))
+                else -> value
+            }
+        }
+        val regular = months.mapIndexed { index, value -> sale(value.month.atDay(5), "regular-$index", if (index < 6) 1000 else 10) }
+        val product = product(months, regular + sale(LocalDate.of(2026, 8, 15), "candidate", 100))
+
+        val recent = assertNotNull(engine.forecast(product, source(product), parameters.copy(historyMonths = 6)))
+        val full = assertNotNull(engine.forecast(product, source(product), parameters.copy(historyMonths = 12)))
+
+        assertEquals(YearMonth.of(2026, 3), recent.historyFrom)
+        assertEquals(YearMonth.of(2025, 9), full.historyFrom)
+        assertEquals("candidate", recent.excludedSales.single().documentNumber)
+        assertDecimal("10", recent.excludedSales.single().averageOtherQuantity)
+        assertDecimal("100", recent.excludedOutlierQuantity)
+        assertTrue(full.excludedSales.isEmpty())
+        assertDecimal("0", full.excludedOutlierQuantity)
+    }
+
+    @Test
+    fun `custom anomaly multiplier changes both exclusion and resulting forecast`() {
+        val months = dailyHistory(YearMonth.of(2026, 3), List(6) { 10 }).map {
+            if (it.month == YearMonth.of(2026, 8)) it.copy(value = requireNotNull(it.value) + decimal(40)) else it
+        }
+        val regular = months.mapIndexed { index, value -> sale(value.month.atDay(5), "regular-$index", 10) }
+        val product = product(months, regular + sale(LocalDate.of(2026, 8, 15), "candidate", 40))
+
+        val strict = assertNotNull(engine.forecast(product, source(product), parameters.copy(anomalyMultiplier = decimal(3))))
+        val tolerant = assertNotNull(engine.forecast(product, source(product), parameters.copy(anomalyMultiplier = decimal(6))))
+
+        assertDecimal("3", parameters.anomalyMultiplier)
+        assertDecimal("40", strict.excludedOutlierQuantity)
+        assertDecimal("30", strict.excludedSales.single().thresholdQuantity)
+        assertDecimal("300", strict.forecastQuantity)
+        assertTrue(tolerant.excludedSales.isEmpty())
+        assertDecimal("0", tolerant.excludedOutlierQuantity)
+        assertTrue(tolerant.forecastQuantity > strict.forecastQuantity)
+    }
+
+    @Test
+    fun `anomalies in unknown monthly sales are not reported as removed sales`() {
+        val unknownMonth = YearMonth.of(2026, 5)
+        val months = dailyHistory(YearMonth.of(2026, 3), List(6) { 10 }).map {
+            if (it.month == unknownMonth) it.copy(value = null) else it
+        }
+        val regular = months.mapIndexed { index, value -> sale(value.month.atDay(5), "regular-$index", 10) }
+        val product = product(months, regular + sale(unknownMonth.atDay(15), "unknown-month-project", 10000))
+
+        val result = forecast(product)
+
+        assertTrue(result.excludedSales.isEmpty())
         assertDecimal("0", result.excludedOutlierQuantity)
         assertDecimal("300", result.forecastQuantity)
-        assertTrue(result.warnings.any { "Несогласованность" in it })
+        assertTrue(result.warnings.any { "месячные продажи неизвестны" in it })
     }
 
     @Test
