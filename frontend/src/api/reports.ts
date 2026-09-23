@@ -36,6 +36,27 @@ export const slotKey = (supplierId: string, kind: ReportKind) => `${supplierId}.
 export const reportTitle = (k: ReportKind) => REPORT_TYPES.find((r) => r.kind === k)?.title ?? k;
 export const supplierName = (id: string) => SUPPLIERS.find((s) => s.id === id)?.name ?? id;
 
+// Имя поля multipart для backend `POST /api/excel`: `iekMoq`, `systemeSalesDynamics`, …
+const KIND_FIELD: Record<ReportKind, string> = {
+  sales_tx: "SalesDynamics",
+  sales_monthly: "MonthlySales",
+  stock_monthly: "MonthlyStocks",
+  in_transit: "IncomingShipments",
+  seasonality: "Seasonality",
+  moq: "Moq",
+};
+
+export const backendField = (supplierId: string, kind: ReportKind) => `${supplierId}${KIND_FIELD[kind]}`;
+
+/** Обратный разбор имени поля backend в пару «поставщик + тип отчёта». */
+export function parseBackendField(field: string): { supplierId: string; kind: ReportKind } | null {
+  const supplier = SUPPLIERS.find((s) => field.startsWith(s.id));
+  if (!supplier) return null;
+  const suffix = field.slice(supplier.id.length);
+  const entry = (Object.entries(KIND_FIELD) as [ReportKind, string][]).find(([, v]) => v === suffix);
+  return entry ? { supplierId: supplier.id, kind: entry[0] } : null;
+}
+
 export function guessKind(filename: string): ReportKind | null {
   return REPORT_TYPES.find((r) => r.match.test(filename))?.kind ?? null;
 }

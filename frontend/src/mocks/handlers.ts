@@ -1,6 +1,6 @@
 import { http, HttpResponse, delay } from "msw";
 import orders from "./orders.json";
-import type { ApproveRequest, ImportResult, OrdersResponse, ReportKind } from "../api/types";
+import type { ApproveRequest, OrdersResponse, UploadResponse } from "../api/types";
 
 // Сценарий мока выбирается параметром страницы: ?mock=error | empty | slow | base
 const scenario = () => new URLSearchParams(window.location.search).get("mock");
@@ -39,50 +39,44 @@ export const handlers = [
   }),
 
 
-  http.post("*/api/imports", async ({ request }) => {
+  http.post("*/api/excel", async ({ request }) => {
     await delay(scenario() === "slow" ? 3000 : 900);
     if (scenario() === "upload-error") {
+      // backend отдаёт ошибки как problem+json (spring.mvc.problemdetails)
       return HttpResponse.json(
-        { error: { code: "bad_file", message: "IEK · «Товар в пути»: не найдена колонка «Код 1с»", request_id: "mock-2b81c0" } },
-        { status: 422 },
+        { title: "Bad Request", status: 400, detail: "systemeIncomingShipments: не найдена колонка «Код 1с»." },
+        { status: 400 },
       );
     }
     const form = await request.formData();
-    // реальные цифры по выгрузкам от 22.09.2026
-    type Stat = { rows: number; skus: number; status: "ok" | "warning" };
-    const stats: Record<string, Partial<Record<ReportKind, Stat>>> = {
-      systeme: {
-        sales_tx: { rows: 77309, skus: 565, status: "ok" },
-        sales_monthly: { rows: 557, skus: 557, status: "ok" },
-        stock_monthly: { rows: 704, skus: 704, status: "warning" },
-        seasonality: { rows: 3, skus: 0, status: "ok" },
-        in_transit: { rows: 497, skus: 497, status: "warning" },
-        moq: { rows: 554, skus: 554, status: "warning" },
-      },
-      iek: {
-        sales_tx: { rows: 171604, skus: 2151, status: "ok" },
-        sales_monthly: { rows: 2463, skus: 2463, status: "ok" },
-        stock_monthly: { rows: 2853, skus: 2853, status: "ok" },
-        seasonality: { rows: 3, skus: 0, status: "ok" },
-        in_transit: { rows: 2641, skus: 2616, status: "ok" },
-        moq: { rows: 1937, skus: 1937, status: "ok" },
-      },
+    // число разобранных записей по выгрузкам от 22.09.2026
+    const recordCountsByField: Record<string, number> = {
+      iekMoq: 1937, iekSalesDynamics: 171604, iekMonthlyStocks: 2853,
+      iekMonthlySales: 2463, iekIncomingShipments: 2641, iekSeasonality: 12,
+      systemeMoq: 554, systemeSalesDynamics: 77309, systemeMonthlyStocks: 704,
+      systemeMonthlySales: 557, systemeIncomingShipments: 497, systemeSeasonality: 12,
     };
-    const files = [...form.entries()].map(([key, f]) => {
-      const [supplier_id, kind] = key.split(".") as [string, ReportKind];
-      const st = stats[supplier_id]?.[kind] ?? { rows: 0, skus: 0, status: "warning" as const };
-      return { supplier_id, kind, filename: (f as File).name, ...st };
-    });
-    // можно загрузить одного поставщика — показываем замечания только по пришедшим
-    const submitted = new Set(files.map((f) => f.supplier_id));
-    const allIssues: ImportResult["issues"] = [
-      { supplier_id: "systeme", severity: "warning", code: "sku_not_in_plan", message: "SKU есть в остатках, но нет в «Товар в пути» — не попадут в заказ", count: 227 },
-      { supplier_id: "systeme", severity: "warning", code: "no_moq", message: "SKU без кратности — считаем кратность 1", count: 28 },
-      { supplier_id: "systeme", severity: "info", code: "returns", message: "Отрицательные продажи (возвраты) вынесены из спроса", count: 318 },
-      { severity: "info", code: "partial_month", message: "Сентябрь 2026 неполный (до 22.09) — не участвует в прогнозе", count: 1 },
+    const fields = [...form.keys()];
+    const recordCounts: Record<string, number> = {};
+    for (const field of fields) recordCounts[field] = recordCountsByField[field] ?? 0;
+    const hasSysteme = fields.some((f) => f.startsWith("systeme"));
+    const hasIek = fields.some((f) => f.startsWith("iek"));
+    // замечания к ячейкам — только по пришедшим поставщикам
+    const allIssues: UploadResponse["issues"] = [
+      { fileName: "Товар в пути_SystemElectric на 22.09.2026.xlsx", sheet: "Лист1", cell: "AF12", message: "Не число в «средние продажи» — сохранено null", rawValue: "н/д" },
+      { fileName: "MOQ SystemElectric.xlsx", sheet: "MOQ", cell: "D57", message: "Пустая кратность — при расчёте примем 1", rawValue: null },
+      { fileName: "Сезонность ИЭК.xlsx", sheet: "2026", cell: "M3", message: "Сентябрь 2026 неполный — коэффициент предварительный", rawValue: "0.7" },
     ];
-    const issues = allIssues.filter((i) => !i.supplier_id || submitted.has(i.supplier_id));
-    const res: ImportResult = { id: `imp-${Date.now()}`, uploaded_at: new Date().toISOString(), can_calculate: true, files, issues };
+    const issues = allIssues.filter(
+      (i) => (hasSysteme && /systemelectric|systeme/i.test(i.fileName)) || (hasIek && /иэк|iek/i.test(i.fileName)),
+    );
+    const res: UploadResponse = {
+      iekFiles: hasIek ? 6 : 0,
+      systemeFiles: hasSysteme ? 6 : 0,
+      totalFiles: fields.length,
+      recordCounts,
+      issues,
+    };
     return HttpResponse.json(res);
   }),
 ];

@@ -47,20 +47,26 @@ export interface ApiError {
   error: { code: string; message: string; request_id?: string };
 }
 
-/** Тип отчёта из 1С. Ключ уходит бэкенду как имя поля multipart. */
+/** Тип отчёта из 1С. Внутренний ключ слота; в поле multipart уходит имя вида `iekMoq` (см. reports.ts). */
 export type ReportKind = "sales_tx" | "sales_monthly" | "stock_monthly" | "seasonality" | "in_transit" | "moq";
 
-export interface ImportResult {
-  id: string;
-  uploaded_at: string;
-  can_calculate: boolean;
-  files: {
-    supplier_id: string;
-    kind: ReportKind;
-    filename: string;
-    rows: number;
-    skus: number;
-    status: "ok" | "warning" | "error";
-  }[];
-  issues: { supplier_id?: string; severity: "error" | "warning" | "info"; code: string; message: string; count: number }[];
+/**
+ * Ответ backend `POST /api/excel` (см. корневой README).
+ * `recordCounts` — число разобранных записей по каждому полю (`iekMoq`, `systemeSeasonality`, …).
+ * `issues` — замечания к ячейкам; показываются даже при успешном ответе.
+ */
+export interface ExcelIssue {
+  fileName: string;
+  sheet?: string;
+  cell?: string;
+  message: string;
+  rawValue?: string | null;
+}
+
+export interface UploadResponse {
+  iekFiles: number;
+  systemeFiles: number;
+  totalFiles: number;
+  recordCounts: Record<string, number>;
+  issues: ExcelIssue[];
 }

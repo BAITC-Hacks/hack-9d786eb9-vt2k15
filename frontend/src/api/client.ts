@@ -1,4 +1,5 @@
-import type { ApiError, ApproveRequest, ApproveResponse, ImportResult, OrdersResponse, ReportKind } from "./types";
+import { backendField } from "./reports";
+import type { ApiError, ApproveRequest, ApproveResponse, OrdersResponse, ReportKind, UploadResponse } from "./types";
 
 const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? "";
 
@@ -35,19 +36,26 @@ export const api = {
     request<ApproveResponse>("/api/orders/approve", { method: "POST", body: JSON.stringify(body) }),
 };
 
+/** RFC 7807 problem+json — так backend (Spring) отдаёт ошибки. */
+interface ProblemDetail {
+  title?: string;
+  detail?: string;
+  status?: number;
+}
+
 /**
- * POST /api/imports — multipart/form-data, 12 полей: имя поля = «поставщик.тип отчёта»
- * (systeme.sales_tx, iek.moq, …), значение = файл. XHR, чтобы показывать прогресс загрузки.
+ * POST /api/excel — multipart/form-data. Имя поля — как ждёт backend: `iekMoq`, `systemeSalesDynamics`, …
+ * Каждый поставщик отправляется целиком (6 отчётов); можно один или обоих. XHR — ради прогресса загрузки.
  */
 export function uploadReports(
   files: { supplierId: string; kind: ReportKind; file: File }[],
   onProgress: (share: number) => void,
-): Promise<ImportResult> {
+): Promise<UploadResponse> {
   const form = new FormData();
-  for (const f of files) form.append(`${f.supplierId}.${f.kind}`, f.file, f.file.name);
+  for (const f of files) form.append(backendField(f.supplierId, f.kind), f.file, f.file.name);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", `${BASE}/api/imports`);
+    xhr.open("POST", `${BASE}/api/excel`);
     xhr.upload.onprogress = (e) => e.lengthComputable && onProgress(e.loaded / e.total);
     xhr.onload = () => {
       let body: unknown;
@@ -56,10 +64,12 @@ export function uploadReports(
       } catch {
         /* не JSON */
       }
-      if (xhr.status >= 200 && xhr.status < 300) resolve(body as ImportResult);
+      if (xhr.status >= 200 && xhr.status < 300) resolve(body as UploadResponse);
       else {
-        const err = (body as ApiError | undefined)?.error;
-        reject(new HttpError(xhr.status, err?.message ?? `Ошибка ${xhr.status}`, err?.request_id));
+        // backend: problem+json {detail, title}; на всякий случай поддержим и {error:{message}}
+        const problem = body as ProblemDetail & Partial<ApiError>;
+        const message = problem?.detail ?? problem?.error?.message ?? problem?.title ?? `Ошибка ${xhr.status}`;
+        reject(new HttpError(xhr.status, message, problem?.error?.request_id));
       }
     };
     xhr.onerror = () => reject(new HttpError(0, "Нет связи с сервером"));

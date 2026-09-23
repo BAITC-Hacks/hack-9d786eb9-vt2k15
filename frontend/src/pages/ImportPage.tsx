@@ -5,13 +5,14 @@ import {
   REPORT_TYPES,
   SUPPLIERS,
   TOTAL_FILES,
+  backendField,
   guessKind,
   guessSupplier,
   reportTitle,
   slotKey,
   supplierName,
 } from "../api/reports";
-import type { ImportResult, ReportKind } from "../api/types";
+import type { ReportKind, UploadResponse } from "../api/types";
 import { fmtInt } from "../format";
 
 interface Slotted {
@@ -38,6 +39,7 @@ export function ImportPage({ onGoPlan }: { onGoPlan: () => void }) {
   const [rejected, setRejected] = useState<string[]>([]);
   const [dragOver, setDragOver] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [sentAt, setSentAt] = useState<Date | null>(null);
   const input = useRef<HTMLInputElement>(null);
   const qc = useQueryClient();
 
@@ -51,7 +53,10 @@ export function ImportPage({ onGoPlan }: { onGoPlan: () => void }) {
         setProgress,
       ),
     onMutate: () => setProgress(0),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["orders"] }),
+    onSuccess: () => {
+      setSentAt(new Date());
+      qc.invalidateQueries({ queryKey: ["orders"] });
+    },
   });
 
   /** Раскладывает файлы по слотам: поставщик и тип — по имени файла. */
@@ -298,8 +303,8 @@ export function ImportPage({ onGoPlan }: { onGoPlan: () => void }) {
           ) : (
             <span className={blocker ? "muted" : "ok-text"}>
               {blocker ??
-                (result
-                  ? `Отправлено в ${new Date(result.uploaded_at).toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })}`
+                (result && sentAt
+                  ? `Отправлено в ${sentAt.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })}`
                   : readyLabel)}
             </span>
           )}
@@ -406,45 +411,43 @@ function Slot({ slotId, title, hint, slotted, supplierId, kind, over, busy, onDr
   );
 }
 
-function ResultPanel({ result, onGoPlan }: { result: ImportResult; onGoPlan: () => void }) {
-  const tone = { ok: "ok", warning: "warn", error: "bad" } as const;
-  const label = { ok: "Готов", warning: "Есть замечания", error: "Ошибка" } as const;
-  const common = result.issues.filter((i) => !i.supplier_id);
-  // показываем только тех поставщиков, чьи файлы пришли (можно грузить одного)
-  const shown = SUPPLIERS.filter((s) => result.files.some((f) => f.supplier_id === s.id));
+function ResultPanel({ result, onGoPlan }: { result: UploadResponse; onGoPlan: () => void }) {
+  // показываем только тех поставщиков, чьи отчёты пришли (можно грузить одного)
+  const shown = SUPPLIERS.filter((s) => REPORT_TYPES.some((r) => result.recordCounts[backendField(s.id, r.kind)] !== undefined));
   return (
     <section className="panel" aria-label="Результат проверки">
       <div className="panel-head">
         <h2>Проверка данных</h2>
-        <span className={`pill ${result.can_calculate ? "ok" : "bad"}`}>{result.can_calculate ? "Можно считать" : "Нужно исправить"}</span>
+        <span className="pill ok">Принято файлов: {result.totalFiles}</span>
       </div>
       <div className="supplier-grid inner">
-        {shown.map((s) => {
-          const files = result.files.filter((f) => f.supplier_id === s.id);
-          const issues = result.issues.filter((i) => i.supplier_id === s.id);
-          return (
-            <div key={s.id}>
-              <h3 className="sub-head">{s.name}</h3>
-              <ul className="file-list compact">
-                {files.map((f) => (
-                  <li key={f.kind}>
+        {shown.map((s) => (
+          <div key={s.id}>
+            <h3 className="sub-head">{s.name}</h3>
+            <ul className="file-list compact">
+              {REPORT_TYPES.map((r) => {
+                const count = result.recordCounts[backendField(s.id, r.kind)];
+                return (
+                  <li key={r.kind}>
                     <div className="grow">
-                      <div className="strong">{reportTitle(f.kind)}</div>
-                      <div className="muted small ellipsis" title={f.filename}>{f.filename}</div>
+                      <div className="strong">{r.title}</div>
                     </div>
-                    <span className="mono small muted">{fmtInt(f.rows)} стр.</span>
-                    <span className={`pill ${tone[f.status]}`}>{label[f.status]}</span>
+                    <span className="mono small muted">{count === undefined ? "—" : `${fmtInt(count)} зап.`}</span>
+                    <span className="pill ok">Разобран</span>
                   </li>
-                ))}
-              </ul>
-              {issues.length > 0 && <Issues items={issues} />}
-            </div>
-          );
-        })}
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </div>
-      {common.length > 0 && <Issues items={common} />}
+      {result.issues.length > 0 ? (
+        <Issues items={result.issues} />
+      ) : (
+        <p className="muted small">Замечаний к ячейкам нет.</p>
+      )}
       <div className="panel-foot">
-        <button className="btn primary" disabled={!result.can_calculate} onClick={onGoPlan}>
+        <button className="btn primary" onClick={onGoPlan}>
           Перейти к плану заказа
         </button>
       </div>
@@ -452,14 +455,14 @@ function ResultPanel({ result, onGoPlan }: { result: ImportResult; onGoPlan: () 
   );
 }
 
-function Issues({ items }: { items: ImportResult["issues"] }) {
+function Issues({ items }: { items: UploadResponse["issues"] }) {
   return (
     <ul className="issues">
-      {items.map((i) => (
-        <li key={`${i.supplier_id ?? "all"}-${i.code}`} className={i.severity}>
+      {items.map((i, idx) => (
+        <li key={`${i.fileName}-${i.cell ?? idx}`} className="warning">
           <span className="dot" aria-hidden="true" />
           <span className="grow">{i.message}</span>
-          <span className="mono small">{fmtInt(i.count)}</span>
+          <span className="mono small muted">{[i.fileName, i.sheet, i.cell].filter(Boolean).join(" · ")}</span>
         </li>
       ))}
     </ul>

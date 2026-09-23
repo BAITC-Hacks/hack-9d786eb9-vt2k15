@@ -1,0 +1,12 @@
+.git
+.gradle
+build
+frontend
+prototype
+design
+docs
+task spec
+*.tar
+*.md
+.DS_Store
+.idea
