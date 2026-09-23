@@ -17,8 +17,27 @@ Hackathon team repository for VT2k15
 | Путь | Что это |
 | --- | --- |
 | `docs/design.md` | Дизайн решения: проблема, находки в данных, архитектура, алгоритм, AI-слой, план |
-| `design/` | Макеты 4 экранов (план заказа, карточка SKU, риски, параметры) |
+| `design/` | Макеты экранов: план заказа, карточка SKU, риски, параметры |
 | `prototype/order_prototype.py` | Прототип расчёта заказа на реальных выгрузках |
+| `frontend/` | Веб-интерфейс: загрузка выгрузок, план заказа, карточка позиции, утверждение |
+
+## Фронтенд
+
+![План заказа](frontend/docs/screenshots/plan.png)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Откройте http://localhost:5173 — интерфейс работает на моках, бэкенд не нужен. С настоящим бэкендом: `VITE_USE_MOCKS=false BACKEND_URL=http://localhost:8000 npm run dev`.
+
+| Загрузка данных | Карточка позиции |
+| --- | --- |
+| ![Загрузка данных](frontend/docs/screenshots/import-attach.png) | ![Карточка позиции](frontend/docs/screenshots/item.png) |
+
+Экраны, сценарии моков и контракт API — в [frontend/README.md](frontend/README.md).
 
 ## Прототип
 
