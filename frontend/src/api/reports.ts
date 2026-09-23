@@ -15,7 +15,7 @@ export interface ReportType {
   match: RegExp;
 }
 
-// Каждый цикл пользователь загружает 6 отчётов на каждого поставщика — всего 12 файлов, все обязательны
+// 6 отчётов на поставщика. Достаточно загрузить одного поставщика целиком (6 файлов) или обоих (12).
 export const SUPPLIERS: Supplier[] = [
   { id: "systeme", name: "Systeme Electric", match: /syst?e?me\s*_?electric|syseme|systemelectric/i },
   { id: "iek", name: "IEK", match: /иэк|iek/i },

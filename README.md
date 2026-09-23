@@ -145,6 +145,8 @@ npm run dev
 
 Откройте http://localhost:5173 — интерфейс работает на моках, бэкенд не нужен. С настоящим бэкендом: `VITE_USE_MOCKS=false BACKEND_URL=http://localhost:8000 npm run dev`.
 
+Каждый цикл менеджер загружает по 6 отчётов на поставщика (Systeme Electric и IEK). Можно загрузить одного поставщика целиком или обоих — поставщик берётся по принципу «всё или ничего».
+
 | Загрузка данных | Карточка позиции |
 | --- | --- |
 | ![Загрузка данных](frontend/docs/screenshots/import-attach.png) | ![Карточка позиции](frontend/docs/screenshots/item.png) |

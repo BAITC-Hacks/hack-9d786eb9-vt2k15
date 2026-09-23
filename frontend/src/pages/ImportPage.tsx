@@ -44,7 +44,8 @@ export function ImportPage({ onGoPlan }: { onGoPlan: () => void }) {
   const upload = useMutation({
     mutationFn: () =>
       uploadReports(
-        SUPPLIERS.flatMap((s) =>
+        // отправляем только полностью заполненных поставщиков (всё или ничего)
+        SUPPLIERS.filter((s) => REPORT_TYPES.every((r) => slots[slotKey(s.id, r.kind)])).flatMap((s) =>
           REPORT_TYPES.map((r) => ({ supplierId: s.id, kind: r.kind, file: slots[slotKey(s.id, r.kind)].file })),
         ),
         setProgress,
@@ -120,12 +121,26 @@ export function ImportPage({ onGoPlan }: { onGoPlan: () => void }) {
   }
 
   const filled = Object.keys(slots).length;
-  const missing = TOTAL_FILES - filled;
-  const blocker = missing
-    ? `Не хватает ${missing} ${missing === 1 ? "файла" : "файлов"} из ${TOTAL_FILES}`
-    : unsorted.length
-      ? `Лишние файлы: ${unsorted.length} — разложите или уберите`
-      : null;
+  // каждый поставщик — всё или ничего; отправить можно, если полностью заполнен хотя бы один
+  const perSupplier = SUPPLIERS.map((s) => ({
+    supplier: s,
+    count: REPORT_TYPES.filter((r) => slots[slotKey(s.id, r.kind)]).length,
+  }));
+  const complete = perSupplier.filter((p) => p.count === REPORT_TYPES.length);
+  const partial = perSupplier.filter((p) => p.count > 0 && p.count < REPORT_TYPES.length);
+  const blocker = partial.length
+    ? `${partial
+        .map((p) => `${p.supplier.name}: не хватает ${REPORT_TYPES.length - p.count} из ${REPORT_TYPES.length}`)
+        .join("; ")} — заполните поставщика целиком или уберите его файлы`
+    : complete.length === 0
+      ? `Загрузите все ${REPORT_TYPES.length} отчётов хотя бы одного поставщика`
+      : unsorted.length
+        ? `Лишние файлы: ${unsorted.length} — разложите или уберите`
+        : null;
+  const readyLabel =
+    complete.length === SUPPLIERS.length
+      ? `Готово: оба поставщика, ${complete.length * REPORT_TYPES.length} файлов`
+      : `Готово: ${complete.map((p) => p.supplier.name).join(", ")} · ${complete.length * REPORT_TYPES.length} файлов`;
   const result = upload.data;
   const busy = upload.isPending;
 
@@ -157,9 +172,9 @@ export function ImportPage({ onGoPlan }: { onGoPlan: () => void }) {
       >
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 16V4" /><path d="M7 9l5-5 5 5" /><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" /></svg>
         <div className="grow">
-          <div className="strong">Перетащите сюда все {TOTAL_FILES} файлов сразу</div>
+          <div className="strong">Перетащите файлы — по {REPORT_TYPES.length} отчётов на поставщика</div>
           <div className="muted small">
-            Поставщик и тип отчёта определятся по имени файла. Что не распознается — попадёт в список ниже. xlsx, xls или csv до {MAX_MB} МБ.
+            Достаточно одного поставщика целиком; можно загрузить обоих ({TOTAL_FILES} файлов). Поставщик и тип отчёта определятся по имени файла. Что не распознается — попадёт в список ниже. xlsx, xls или csv до {MAX_MB} МБ.
           </div>
         </div>
         <span className="btn">Выбрать файлы</span>
@@ -244,7 +259,7 @@ export function ImportPage({ onGoPlan }: { onGoPlan: () => void }) {
             <section key={s.id} className="panel" aria-label={s.name}>
               <div className="panel-head">
                 <h2>{s.name}</h2>
-                <span className={`pill ${count === REPORT_TYPES.length ? "ok" : "muted"}`}>
+                <span className={`pill ${count === REPORT_TYPES.length ? "ok" : count > 0 ? "warn" : "muted"}`}>
                   {count} / {REPORT_TYPES.length}
                 </span>
               </div>
@@ -285,7 +300,7 @@ export function ImportPage({ onGoPlan }: { onGoPlan: () => void }) {
               {blocker ??
                 (result
                   ? `Отправлено в ${new Date(result.uploaded_at).toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })}`
-                  : `Все ${TOTAL_FILES} файлов на месте`)}
+                  : readyLabel)}
             </span>
           )}
         </div>
@@ -395,6 +410,8 @@ function ResultPanel({ result, onGoPlan }: { result: ImportResult; onGoPlan: () 
   const tone = { ok: "ok", warning: "warn", error: "bad" } as const;
   const label = { ok: "Готов", warning: "Есть замечания", error: "Ошибка" } as const;
   const common = result.issues.filter((i) => !i.supplier_id);
+  // показываем только тех поставщиков, чьи файлы пришли (можно грузить одного)
+  const shown = SUPPLIERS.filter((s) => result.files.some((f) => f.supplier_id === s.id));
   return (
     <section className="panel" aria-label="Результат проверки">
       <div className="panel-head">
@@ -402,7 +419,7 @@ function ResultPanel({ result, onGoPlan }: { result: ImportResult; onGoPlan: () 
         <span className={`pill ${result.can_calculate ? "ok" : "bad"}`}>{result.can_calculate ? "Можно считать" : "Нужно исправить"}</span>
       </div>
       <div className="supplier-grid inner">
-        {SUPPLIERS.map((s) => {
+        {shown.map((s) => {
           const files = result.files.filter((f) => f.supplier_id === s.id);
           const issues = result.issues.filter((i) => i.supplier_id === s.id);
           return (

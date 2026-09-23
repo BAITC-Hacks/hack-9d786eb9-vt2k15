@@ -73,12 +73,15 @@ export const handlers = [
       const st = stats[supplier_id]?.[kind] ?? { rows: 0, skus: 0, status: "warning" as const };
       return { supplier_id, kind, filename: (f as File).name, ...st };
     });
-    const issues: ImportResult["issues"] = [
+    // можно загрузить одного поставщика — показываем замечания только по пришедшим
+    const submitted = new Set(files.map((f) => f.supplier_id));
+    const allIssues: ImportResult["issues"] = [
       { supplier_id: "systeme", severity: "warning", code: "sku_not_in_plan", message: "SKU есть в остатках, но нет в «Товар в пути» — не попадут в заказ", count: 227 },
       { supplier_id: "systeme", severity: "warning", code: "no_moq", message: "SKU без кратности — считаем кратность 1", count: 28 },
       { supplier_id: "systeme", severity: "info", code: "returns", message: "Отрицательные продажи (возвраты) вынесены из спроса", count: 318 },
       { severity: "info", code: "partial_month", message: "Сентябрь 2026 неполный (до 22.09) — не участвует в прогнозе", count: 1 },
     ];
+    const issues = allIssues.filter((i) => !i.supplier_id || submitted.has(i.supplier_id));
     const res: ImportResult = { id: `imp-${Date.now()}`, uploaded_at: new Date().toISOString(), can_calculate: true, files, issues };
     return HttpResponse.json(res);
   }),
