@@ -24,11 +24,12 @@ export function ErrorState({ message, requestId, onRetry }: { message: string; r
   );
 }
 
-export function EmptyState() {
+export function EmptyState({ onGoImport }: { onGoImport?: () => void }) {
   return (
     <div className="panel state">
       <h2>Заказывать нечего</h2>
       <p className="muted">Бэкенд вернул пустой список: либо остатков хватает, либо выгрузки ещё не загружены.</p>
+      {onGoImport && <button className="btn primary" onClick={onGoImport}>Загрузить данные</button>}
     </div>
   );
 }

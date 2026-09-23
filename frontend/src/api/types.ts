@@ -46,3 +46,14 @@ export interface ApproveResponse {
 export interface ApiError {
   error: { code: string; message: string; request_id?: string };
 }
+
+/** Тип отчёта из 1С. Ключ уходит бэкенду как имя поля multipart. */
+export type ReportKind = "sales_tx" | "sales_monthly" | "stock_monthly" | "seasonality" | "in_transit" | "moq";
+
+export interface ImportResult {
+  id: string;
+  uploaded_at: string;
+  can_calculate: boolean;
+  files: { kind: ReportKind; filename: string; rows: number; skus: number; status: "ok" | "warning" | "error" }[];
+  issues: { severity: "error" | "warning" | "info"; code: string; message: string; count: number }[];
+}
