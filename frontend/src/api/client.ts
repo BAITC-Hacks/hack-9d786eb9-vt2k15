@@ -36,15 +36,15 @@ export const api = {
 };
 
 /**
- * POST /api/imports — multipart/form-data, одно поле на отчёт: имя поля = тип отчёта
- * (sales_tx, stock_monthly, …), значение = файл. XHR, чтобы показывать прогресс загрузки.
+ * POST /api/imports — multipart/form-data, 12 полей: имя поля = «поставщик.тип отчёта»
+ * (systeme.sales_tx, iek.moq, …), значение = файл. XHR, чтобы показывать прогресс загрузки.
  */
 export function uploadReports(
-  files: { kind: ReportKind; file: File }[],
+  files: { supplierId: string; kind: ReportKind; file: File }[],
   onProgress: (share: number) => void,
 ): Promise<ImportResult> {
   const form = new FormData();
-  for (const f of files) form.append(f.kind, f.file, f.file.name);
+  for (const f of files) form.append(`${f.supplierId}.${f.kind}`, f.file, f.file.name);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `${BASE}/api/imports`);
